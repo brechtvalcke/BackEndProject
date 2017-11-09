@@ -1,0 +1,13 @@
+node_modules/
+koha-font-end/node_modules
+.idea/
+/test.js
+
+/package-lock.json
+/test-achiel.js
+package-lock.json
+
+.package_REMOTE_4628.json.swp
+.package_LOCAL_4628.json.swp
+.package_BASE_4628.json.swp
+.package.json.swp
