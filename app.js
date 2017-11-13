@@ -23,5 +23,5 @@ app.get("*", function (req, res) {
     fs.createReadStream("./public/index.html").pipe(res);
 });
 
-app.listen(80);
+app.listen(process.env.port || 80);
 
