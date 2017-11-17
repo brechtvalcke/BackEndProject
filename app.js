@@ -11,7 +11,10 @@ let settings = require('./settings');
 let JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
 
+let mongoose = require('mongoose');
+mongoose.connect('');
 let globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,JwtStrategy,ExtractJwt);
+
 
 //routes
 let routes = require('./routes')(app, passport); // params meegeven voor dependency injection (zorgen dat deze zaken maar 1 keer over de volledige node worden ingeladen)
