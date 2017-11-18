@@ -1,4 +1,4 @@
-let GroupRepositorie = require('../repository/groupRepositorie');
+let GroupRepositorie = require('../repository/GroupRepositorie');
 
 module.exports = class GroupService {
     constructor(){
@@ -10,6 +10,8 @@ module.exports = class GroupService {
             this.groupRepositorie.getGroups(userID)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
+
+            //TODO get users profile image URL from fb??
         });
     }
 
@@ -18,6 +20,9 @@ module.exports = class GroupService {
             this.groupRepositorie.getGroup(groupID)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
+
+            //TODO get users profile image URL from fb??
+
         });
     }
 
@@ -25,9 +30,14 @@ module.exports = class GroupService {
         return new Promise((resolve, reject) => {
             let promises = [this.groupRepositorie.createGroup($json),this.sendInviteToFacebookFriends(0,1)];
             // TODO call facebook API to send invite
-            Promise.all(promises)
-                .then(result => resolve(result))
-                .catch(error => reject(error));
+            try {
+                Promise.all(promises)
+                    .then(result => resolve(result))
+                    .catch(error => reject(error));
+            }catch (error){
+                console.error(error);
+                reject(error);
+            }
         });
     }
 
