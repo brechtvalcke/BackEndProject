@@ -1,6 +1,6 @@
 let settings = require('./../settings');
 
-module.exports = function (app,passport, cookieParser,bodyParser,helmet,compression,JwtStrategy,ExtractJwt) {
+module.exports = function (app,passport, cookieParser,bodyParser,helmet,compression,FacebookTokenStrategy) {
 
     passport.use(new FacebookTokenStrategy({
         clientID: settings.facebookAuth.FACEBOOK_APP_ID,
