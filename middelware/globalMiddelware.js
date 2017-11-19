@@ -1,21 +1,17 @@
 let settings = require('./../settings');
 
 module.exports = function (app,passport, cookieParser,bodyParser,helmet,compression,JwtStrategy,ExtractJwt) {
-    let opts = {}
-    opts.jwtFromRequest = ExtractJwt.fromHeader(settings.jwt.tokenHeader);
-    opts.secretOrKey = settings.jwt.secret;
-    
-    passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-        let user = jwt_payload.user;
 
-       //return if true
-            return done(null, userObject);
-            return false
-            return done(null,false);
+    passport.use(new FacebookTokenStrategy({
+        clientID: settings.facebookAuth.FACEBOOK_APP_ID,
+        clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
+      }, function(accessToken, refreshToken, profile, done) {
+        // query for user here and send user param
+        const user = {};
+          return done(error, user);
         
-        // no acces
-        // 
-    }));
+      }
+    ));
     
     app.use(passport.initialize());
     // Start compression (g-zip: verkleint files 3x ongeveer)

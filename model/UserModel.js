@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let userModel = new Schema({
-    facebookID: String,
+    _id: String,
     lastLocation: Number,
     friends: [String]
 });

@@ -7,13 +7,11 @@ let compression= require('compression');
 let helmet = require('helmet');
 let passport = require('passport');
 let settings = require('./settings');
-
-let JwtStrategy = require('passport-jwt').Strategy,
-    ExtractJwt = require('passport-jwt').ExtractJwt;
+let FacebookTokenStrategy = require('passport-facebook-token');
 
 let mongoose = require('mongoose');
 mongoose.connect(settings.mongoDb.getConnectionString());
-let globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,JwtStrategy,ExtractJwt);
+let globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,FacebookTokenStrategy);
 
 
 //routes
