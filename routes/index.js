@@ -7,8 +7,7 @@ module.exports = function (app,dbPool,passport, redisClient) {
         require("../"+route)(app,dbPool,passport, redisClient);
     });
 
-    function apiNotFoundRes (req,res){
-        console.log("api not found");
+    function apiNotFoundRes (req,res){S
         res.status(404).send("path does not match an api route");
     }
     app.route('/api/*')

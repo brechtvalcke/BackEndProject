@@ -12,7 +12,7 @@ let JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
 
 let mongoose = require('mongoose');
-mongoose.connect('');
+mongoose.connect(settings.mongoDb.getConnectionString());
 let globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,JwtStrategy,ExtractJwt);
 
 
