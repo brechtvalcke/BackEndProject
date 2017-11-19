@@ -18,7 +18,7 @@ module.exports = class UserRepositorie {
                 })
         });
     }
-
+    
     getNearbyFriends(userID){
         return new Promise((resolve, reject) => {
 
