@@ -7,8 +7,15 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
         clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
       }, function(accessToken, refreshToken, profile, done) {
         // query for user here and send user param
-        const user = {};
-          return done(error, user);
+        
+        const user = {
+            profile:profile,
+            accessToken:accessToken,
+            refreshToken:refreshToken,
+        };
+        error = undefined;
+
+        return done(error, user);
         
       }
     ));
