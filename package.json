@@ -27,10 +27,11 @@
     "helmet": "^3.9.0",
     "md5": "^2.2.1",
     "memory-cache": "^0.2.0",
-    "mongoose": "^4.13.3",
+    "mongoose": "^4.13.4",
     "mysql": "^2.15.0",
     "node-geocoder": "^3.21.0",
     "nodemon": "^1.12.1",
+    "objectid": "^3.2.1",
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0"
   },

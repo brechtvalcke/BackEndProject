@@ -1,4 +1,5 @@
 let GroupModel = require('../model/GroupModel');
+let ObjectId = require('objectid');
 
 module.exports = class GroupRepositorie {
     constructor() {
@@ -6,10 +7,14 @@ module.exports = class GroupRepositorie {
 
     getGroups(userID) {
         return new Promise((resolve, reject) => {
-            GroupModel.find({'users.userID': userID})
+            console.log(userID);
+            console.log(ObjectId(userID));
+            GroupModel.find({'users._id': ObjectId(userID)})
                 .sort({createdOn: 'desc'})
                 .limit(25)
                 .exec((error, results) => {
+                    console.log(error);
+                    console.log(results);
                     if (error) {
                         reject(error);
                     }
