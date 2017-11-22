@@ -6,10 +6,12 @@ let patternString = '/[a-zA-Z0-9]/';
 let groupSchema = new Schema({
     name: { type:String, required:true },
     timeSlot: [{
+        _id:  { type: Schema.ObjectId, auto: true },
         time: Number,
         selected: { type: Boolean, default: false }
     }],
     activity: [{
+        _id:  { type: Schema.ObjectId, auto: true },
         name: {type: String, required: true},
         users: [{userID: String}],
     }],
