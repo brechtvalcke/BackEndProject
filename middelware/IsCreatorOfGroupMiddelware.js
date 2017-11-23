@@ -12,23 +12,15 @@ module.exports = function(req,res,next) {
     }
     groupService.getGroup(groupId)
     .then(group => {
-        let memberOfGroup = false;
-        group.users.forEach(function(user) {
-
-            if(user._id === req.user.data._id){
-                memberOfGroup = true;
-            }
-        }, this);
-        if(memberOfGroup){
+        if(group.createBy === req.user.data._id){
             next();
         }else{
             res.status(403);
-            res.json({error:"Not a member of the group"});
+            res.json({error:"you dont have the rights to do this"});
         }
     })
     .catch(error => {
         res.status(400);
-        console.log(error);
         res.json({error:"Error fetching group"});
     })
 }

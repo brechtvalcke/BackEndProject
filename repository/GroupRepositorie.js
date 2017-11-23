@@ -8,7 +8,7 @@ module.exports = class GroupRepositorie {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
             GroupModel.find({
-                    'users.userID': userID
+                    'users._id': userID
                 })
                 .sort({
                     createdOn: 'desc'
@@ -27,7 +27,7 @@ module.exports = class GroupRepositorie {
 
     getGroup(groupID) {
         return new Promise((resolve, reject) => {
-            GroupModel.find({
+            GroupModel.findOne({
                     '_id': groupID
                 })
                 .exec((error, results) => {
@@ -55,10 +55,10 @@ module.exports = class GroupRepositorie {
             }
         });
     }
-    updateGroup(group) {
+    updateGroupName(updateGroupName,groupID) {
         return new Promise((resolve, reject) => {
             try {
-                GroupModel.findByIdAndUpdate(group._id, group, function (err, res) {
+                GroupModel.findByIdAndUpdate(groupID, updateGroupName, function (err, res) {
                     if (err) {
                         reject(err);
                     }
@@ -69,5 +69,43 @@ module.exports = class GroupRepositorie {
             }
         })
 
+    }
+    addActivityForGroup(activity,groupID){
+        return new Promise((resolve,reject)=> {
+            try{
+                GroupModel.update(
+                    {_id: groupID},
+                    { $push: {activity:activity}},
+                    function(err,raw){
+                        if(err){
+                            reject(err);
+                        }
+                        resolve(raw);
+                    }
+                )
+            }catch(error) {
+                reject(error);
+            }
+        })
+    }
+    updateActivityInGroup(activity,groupID){
+        return new Promise((resolve,reject)=>{
+            try{
+                GroupModel.update(
+                    {_id: groupID, "activity._id":activity._id},
+                    {$set:{
+                        "activity.$":activity
+                    }},
+                    function(err,raw){
+                        if(err){
+                            reject(err);
+                        }
+                        resolve(raw);
+                    }
+                )
+            }catch(error){
+                reject(error);
+            }
+        });
     }
 };

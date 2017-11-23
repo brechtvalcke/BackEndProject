@@ -50,10 +50,70 @@ module.exports = class GroupService {
         return new Promise((resolve, reject) => {
         });
     }
-    updateGroup(body){
-        return new Promise((resolve,reject)=>{
-            const group = new GroupModel(body);
-            this.groupRepositorie.updateGroup(group);
-        })
+    updateGroupName(newName,groupID) {
+        return new Promise((resolve, reject) => {
+            let nameUpdateJson = {name:newName};
+            this.groupRepositorie.updateGroupName(nameUpdateJson,groupID)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
     }
+    getAllActivitiesForGroup(groupID){
+        return new Promise((resolve, reject) => {
+            this.getGroup(groupID)
+            .then(group => {
+                resolve(group.activity);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
+    }
+    addActivityForGroup(body,groupID,userID){
+        return new Promise((resolve, reject) => {
+            const activity = {
+                name: body.name,
+                users: [{userID:userID}]
+            }
+            this.groupRepositorie.addActivityForGroup(activity,groupID)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
+    }
+    updateActivityInGroup(body,groupID){
+        return new Promise((resolve, reject) => {
+            const activity = {
+                _id:body._id,
+                name: body.name,
+                users: body.users,
+            }
+            this.groupRepositorie.updateActivityInGroup(activity,groupID)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
+    }
+    getAllTimeslotsForGroup(groupID){
+        return new Promise((resolve, reject) => {
+            this.getGroup(groupID)
+            .then(group => {
+                resolve(group.timeSlot);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
+    }
+
 };

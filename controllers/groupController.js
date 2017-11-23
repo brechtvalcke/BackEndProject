@@ -11,6 +11,7 @@ module.exports = class GroupController {
             res.json(result);
         })
         .catch(error => {
+            res.status(400);
             res.json({error: "something went wrong"})
         })
     }
@@ -19,10 +20,9 @@ module.exports = class GroupController {
             const now = new Date();
             req.body.name= req.user.data.name + "'s event " + now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
         }
+        req.body.users.push({_id:req.user.data._id,accepted:true})
         let groupToCreate = new GroupModel({
             name: req.body.name,
-            timeSlot: req.body.timeSlot,
-            activity: req.body.activity,
             users: req.body.users,
             createBy: req.user.data._id,
             createdOn: new Date()
@@ -32,6 +32,7 @@ module.exports = class GroupController {
             res.json(result);
         })
         .catch(error => {
+            res.status(400);
             res.json({error: "something went wrong"})
         })
     }
@@ -39,18 +40,40 @@ module.exports = class GroupController {
         groupService.getGroup(req.params.id).then(group => {
             res.json(group);
         }).catch(error => {
+            res.status(400);
             res.json({error:"something went wrong"});
         })
     }
 
     updateGroupName(req,res){
-
+        groupService.updateGroupName(req.body.name,req.params.groupId)
+        .then(result => {
+            res.json({changed:true});
+        })
+        .catch(error => {
+            res.status(400);
+            res.json({error:"something went wrong"});
+        })
     }
     getAllActivitiesForGroup(req,res){
-        
+        groupService.getAllActivitiesForGroup(req.params.groupId)
+        .then(result => {
+            res.json(result);
+        })
+        .catch(error =>{
+            res.status(400);
+            res.json({error:"something went wrong"});
+        })
     }
     addActivityForGroup(req,res){
-
+        groupService.addActivityForGroup(req.body,req.params.groupId,req.user.data._id)
+        .then(result => {
+            res.json({added:true});
+        })
+        .catch(error => {
+            res.status(400);
+            res.json({error:"something went wrong"});
+        })
     }
     updateActivityInGroup(req,res){
 
@@ -59,7 +82,14 @@ module.exports = class GroupController {
 
     }
     getAllTimeslotsForGroup(req,res){
-
+        groupService.getAllTimeslotsForGroup(req.params.groupId)
+        .then(result => {
+            res.json(result);
+        })
+        .catch(error =>{
+            res.status(400);
+            res.json({error:"something went wrong"});
+        })
     }
     addTimeslotForGroup(req,res){
 
@@ -71,7 +101,7 @@ module.exports = class GroupController {
 
     }
     getMessages(req,res){
-        
+
     }
 
 }
