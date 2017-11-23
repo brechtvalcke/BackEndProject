@@ -2,16 +2,17 @@ let GroupModel = require('../model/GroupModel');
 let ObjectId = require('objectid');
 
 module.exports = class GroupRepositorie {
-    constructor() {
-    }
+    constructor() {}
 
     getGroups(userID) {
+        // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
-            console.log(userID);
-            console.log(ObjectId(userID));
-            GroupModel.find({'users._id': ObjectId(userID)})
-                .sort({createdOn: 'desc'})
-                .limit(25)
+            GroupModel.find({
+                    'users.userID': userID
+                })
+                .sort({
+                    createdOn: 'desc'
+                })
                 .exec((error, results) => {
                     console.log(error);
                     console.log(results);
@@ -26,7 +27,9 @@ module.exports = class GroupRepositorie {
 
     getGroup(groupID) {
         return new Promise((resolve, reject) => {
-            GroupModel.find({'_id': groupID})
+            GroupModel.find({
+                    '_id': groupID
+                })
                 .exec((error, results) => {
                     if (error) {
                         reject(error);
@@ -37,27 +40,34 @@ module.exports = class GroupRepositorie {
         });
     }
 
-    createGroup(body) {
+    createGroup(group) {
         return new Promise((resolve, reject) => {
-            try{
-                let schema = new GroupModel({
-                    name: body.name,
-                    timeSlot: body.timeSlot,
-                    activity: body.activity,
-                    users: body.users,
-                    createBy: body.createBy
-                });
-
-                schema.save(error => {
+            try {
+                group.save(error => {
                     if (error) {
                         reject(error);
-                    }else {
+                    } else {
                         resolve(true);
                     }
                 });
-            }catch (error){
-                throw error;
+            } catch (error) {
+                reject(error);
             }
         });
+    }
+    updateGroup(group) {
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.findByIdAndUpdate(group._id, group, function (err, res) {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(res);
+                });
+            } catch (error) {
+                reject(error);
+            }
+        })
+
     }
 };

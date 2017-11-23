@@ -4,7 +4,43 @@ module.exports = class GroupService {
     constructor() {
         this.userRepositorie = new UserRepositorie();
     }
-
+    getOrCreateUserOnLogin(fbProfile){
+        return new Promise((resolve,reject) => {
+            this.userRepositorie.getUserById(fbProfile.id)
+            .then(result => {
+                if (result !==null){
+                    this.userRepositorie.updateUserWithFbProfile(fbProfile).then(newUser => {
+                        resolve(newUser);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    })
+                    
+                }
+                else
+                {
+                    this.userRepositorie.createUserWithFbProfile(fbProfile)
+                    .then(succes => {
+                        this.userRepositorie.getUserById(fbProfile.id)
+                        .then( userAfterCreate => {
+                            if (userAfterCreate !==null){
+                                resolve(userAfterCreate);
+                            }
+                        })
+                        .catch(error => {
+                            reject(error);
+                        })
+                    }).catch(error => {
+                        reject(error);
+                    });
+                }
+                
+            })
+            .catch(error => {
+                reject(error);
+            });
+        });
+    }
     getFriends(userID){
         return new Promise((resolve, reject) => {
             this.userRepositorie.getFriends(userID)
@@ -28,13 +64,5 @@ module.exports = class GroupService {
                 .catch(error => reject(error));
         });
     }
-
-    createAccount(body){
-        return new Promise((resolve, reject) => {
-            //TODO get necessary data from fb??
-            this.userRepositorie.createAccount(body)
-                .then(result => resolve(result))
-                .catch(error => reject(error));
-        });
-    }
+    
 };

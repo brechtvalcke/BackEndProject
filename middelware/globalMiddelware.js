@@ -1,5 +1,6 @@
-let settings = require('./../settings');
-
+const settings = require('./../settings');
+const UserService = require('./../service/UserService');
+const userService = new UserService();
 module.exports = function (app,passport, cookieParser,bodyParser,helmet,compression,FacebookTokenStrategy) {
 
     passport.use(new FacebookTokenStrategy({
@@ -7,15 +8,20 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
         clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
       }, function(accessToken, refreshToken, profile, done) {
         // query for user here and send user param
-        
-        const user = {
-            profile:profile,
-            accessToken:accessToken,
-            refreshToken:refreshToken,
-        };
-        error = undefined;
+        userService.getOrCreateUserOnLogin(profile)
+        .then( user => {
+            let reqUser = {
+                data:user,
+                accessToken:accessToken,
+                refreshToken:refreshToken,
+                fbProfile:profile,
+            }
+            return done(false, reqUser);
+        })
+        .catch( error => {
+            return done(error,false);
+        });
 
-        return done(error, user);
         
       }
     ));
@@ -33,7 +39,7 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
     }));
     app.use(bodyParser.json());
 
-    // Using helmet to make app more secure ( dit zal kieran wel blij maken denkik)
+    // Using helmet to make app more secure
     app.use(helmet.xssFilter());
     app.use(helmet.noSniff());
     app.use(helmet.ieNoOpen());
