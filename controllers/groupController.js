@@ -8,7 +8,7 @@ module.exports = class GroupController {
     getMyGroups(req,res){
         groupService.getGroups(req.user.data._id)
         .then(result => {
-            res.json(result);
+            res.json({data:result});
         })
         .catch(error => {
             res.status(400);
