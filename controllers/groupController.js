@@ -58,7 +58,7 @@ module.exports = class GroupController {
     getAllActivitiesForGroup(req,res){
         groupService.getAllActivitiesForGroup(req.params.groupId)
         .then(result => {
-            res.json(result);
+            res.json({data:result});
         })
         .catch(error =>{
             res.status(400);
@@ -87,7 +87,7 @@ module.exports = class GroupController {
     getAllTimeslotsForGroup(req,res){
         groupService.getAllTimeslotsForGroup(req.params.groupId)
         .then(result => {
-            res.json(result);
+            res.json({data:result});
         })
         .catch(error =>{
             res.status(400);
