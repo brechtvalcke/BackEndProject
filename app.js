@@ -1,21 +1,22 @@
-let express = require("express");
-let app = express();
-let fs = require("fs");
-let bodyParser = require('body-parser');
-let cookieParser = require('cookie-parser');
-let compression= require('compression');
-let helmet = require('helmet');
-let passport = require('passport');
-let settings = require('./settings');
-let FacebookTokenStrategy = require('passport-facebook-token');
+const express = require("express");
+const app = express();
+const fs = require("fs");
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const compression= require('compression');
+const helmet = require('helmet');
+const passport = require('passport');
+const settings = require('./settings');
+const FacebookTokenStrategy = require('passport-facebook-token');
 
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.connect(settings.mongoDb.getConnectionString());
-let globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,FacebookTokenStrategy);
+
+const globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,FacebookTokenStrategy);
 
 
 //routes
-let routes = require('./routes')(app, passport); // params meegeven voor dependency injection (zorgen dat deze zaken maar 1 keer over de volledige node worden ingeladen)
+const routes = require('./routes')(app, passport); // params meegeven voor dependency injection (zorgen dat deze zaken maar 1 keer over de volledige node worden ingeladen)
 
 // file routing here (can be put in a differend file if you like however this is the only functions you need for file serving)
 app.use(express.static('public')); // this is middleware but belongs in file routing because this middelware gives acces to all files in public folder. This creates a file serving that works like apache.
