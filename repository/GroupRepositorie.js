@@ -1,5 +1,4 @@
 let GroupModel = require('../model/GroupModel');
-let ObjectId = require('objectid');
 
 module.exports = class GroupRepositorie {
     constructor() {}
@@ -14,8 +13,6 @@ module.exports = class GroupRepositorie {
                     createdOn: 'desc'
                 })
                 .exec((error, results) => {
-                    console.log(error);
-                    console.log(results);
                     if (error) {
                         reject(error);
                     }

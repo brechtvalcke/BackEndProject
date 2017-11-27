@@ -1,5 +1,6 @@
 const settings = require('./../settings');
 const UserService = require('./../service/UserService');
+
 const userService = new UserService();
 module.exports = function (app,passport, cookieParser,bodyParser,helmet,compression,FacebookTokenStrategy) {
 
@@ -8,7 +9,8 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
         clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
       }, function(accessToken, refreshToken, profile, done) {
         // query for user here and send user param
-        userService.getOrCreateUserOnLogin(profile)
+
+        userService.getOrCreateUserOnLogin(profile,accessToken)
         .then( user => {
             let reqUser = {
                 data:user,

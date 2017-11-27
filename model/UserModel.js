@@ -8,6 +8,7 @@ let userModel = new Schema({
     photoUrl: String,
     lastLogin: Date,
     name: String,
+    email: String,
 });
 
 module.exports = mongoose.model('User',userModel);

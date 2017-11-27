@@ -4,22 +4,37 @@ module.exports = class GroupService {
     constructor() {
         this.userRepositorie = new UserRepositorie();
     }
-    getOrCreateUserOnLogin(fbProfile){
+    getOrCreateUserOnLogin(fbProfile,accesToken){
         return new Promise((resolve,reject) => {
             this.userRepositorie.getUserById(fbProfile.id)
             .then(result => {
                 if (result !==null){
-                    this.userRepositorie.updateUserWithFbProfile(fbProfile).then(newUser => {
-                        resolve(newUser);
+                    this.userRepositorie.getFriendsWithToken(fbProfile,accesToken).then(friends => {
+                        let friendArray = [];
+                        friends.data.forEach(friend => {
+                            friendArray.push(friend.id);
+                        });
+                        this.userRepositorie.updateUserWithFbProfile(fbProfile,accesToken,friendArray).then(newUser => {
+                            resolve(newUser);
+                        })
+                        .catch(error => {
+                            reject(error);
+                        })
                     })
                     .catch(error => {
                         reject(error);
                     })
+
                     
                 }
                 else
                 {
-                    this.userRepositorie.createUserWithFbProfile(fbProfile)
+                    this.userRepositorie.getFriendsWithToken(fbProfile,accesToken).then(friends => {
+                        let friendArray = [];
+                        friends.data.forEach(friend => {
+                            friendArray.push(friend.id);
+                        });
+                    this.userRepositorie.createUserWithFbProfile(fbProfile,accesToken,friendArray)
                     .then(succes => {
                         this.userRepositorie.getUserById(fbProfile.id)
                         .then( userAfterCreate => {
@@ -33,6 +48,10 @@ module.exports = class GroupService {
                     }).catch(error => {
                         reject(error);
                     });
+                })
+                .catch(error => {
+                    reject(error);
+                });
                 }
                 
             })

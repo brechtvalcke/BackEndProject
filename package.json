@@ -22,6 +22,7 @@
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "fbgraph": "^1.4.1",
     "fs": "0.0.1-security",
     "glob": "^7.1.2",
     "helmet": "^3.9.0",
