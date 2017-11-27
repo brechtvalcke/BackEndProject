@@ -41,4 +41,4 @@ module.exports = function(app, passport) {
     // message Routes
     app.route(groupRoute + "message/:groupId")
     .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getMessages); //TODO
-}
+};

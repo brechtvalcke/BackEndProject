@@ -78,6 +78,9 @@ module.exports = class GroupController {
     updateActivityInGroup(req,res){
 
     }
+    updateActivityNameInGroup(req,res){
+
+    }
     deleteActivityInGroup(req,res){
 
     }
@@ -103,5 +106,9 @@ module.exports = class GroupController {
     getMessages(req,res){
 
     }
-
+    voteForActivityInGroup(req,res){}
+    removeVoteForActivityInGroup(req,res){}
+    updateTimeslotNameInGroup(req,res){}
+    voteForTimeslotInGroup(req,res){}
+    removeVoteForTimeslotInGroup(req,res){}
 }
