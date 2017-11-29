@@ -38,7 +38,7 @@ module.exports = class GroupController {
     }
     getGroupById(req,res){
         groupService.getGroup(req.params.id).then(group => {
-            res.json(group);
+            res.json({group:group});
         }).catch(error => {
             res.status(400);
             res.json({error:"something went wrong"});
