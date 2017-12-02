@@ -8,8 +8,6 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
         clientID: settings.facebookAuth.FACEBOOK_APP_ID,
         clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
       }, function(accessToken, refreshToken, profile, done) {
-        // query for user here and send user param
-
         userService.getOrCreateUserOnLogin(profile,accessToken)
         .then( user => {
             let reqUser = {
