@@ -1,5 +1,6 @@
 const UserModel = require('../model/UserModel');
 const graph = require('fbgraph');
+
 module.exports = class UserRepositorie {
         constructor() {}
         getUserById(userID) {
