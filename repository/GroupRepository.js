@@ -105,4 +105,40 @@ module.exports = class GroupRepository {
             }
         });
     }
+
+    addTimeslotForGroup(body,groupID){
+        return new Promise((resolve,reject) => {
+            try{
+                GroupModel.update(
+                    {_id:groupID},
+                    {$push: {timeSlot:body}},
+                    function(err,raw) {
+                        if (err) {
+                            reject(err);
+                        }
+                        resolve(raw);
+                    })
+            }catch (error){
+                reject(error);
+            }
+        });
+    }
+
+    voteForActivityInGroup(groupID,timeSlotID,userID){
+        return new Promise((resolve,reject) => {
+            try{
+                GroupModel.update(
+                    {_id:groupID, "timeSlotID._id": timeSlotID},
+                    {$push: {"timeSlot.votes" :userID}},
+                    function(err,raw) {
+                        if (err) {
+                            reject(err);
+                        }
+                        resolve(raw);
+                    })
+            }catch (error){
+                reject(error);
+            }
+        });
+    }
 };

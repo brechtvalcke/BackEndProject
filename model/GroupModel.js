@@ -7,8 +7,10 @@ let groupSchema = new Schema({
     name: { type:String, required:true },
     timeSlot: [{
         _id:  { type: Schema.ObjectId, auto: true },
-        time: Number,
-        selected: { type: Boolean, default: false }
+        time: Date,
+        votes: { type: [String], default: null },
+        selected: { type: Boolean, default: false },
+
     }],
     activity: [{
         _id:  { type: Schema.ObjectId, auto: true },

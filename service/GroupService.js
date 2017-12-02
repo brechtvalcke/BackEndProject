@@ -116,4 +116,29 @@ module.exports = class GroupService {
         });
     }
 
+    addTimeslotForGroup(body,groupID){
+        return new Promise((resolve,reject) => {
+            this.groupRepositorie.addTimeslotForGroup(body,groupID)
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
+    voteForActivityInGroup(groupID,timeSlotID){
+        return new Promise((resolve,reject) => {
+            let userID = "1499811716733810";
+            this.groupRepositorie.voteForActivityInGroup(groupID,timeSlotID,userID)
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
 };

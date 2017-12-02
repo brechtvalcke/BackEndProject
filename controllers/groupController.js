@@ -37,8 +37,8 @@ module.exports = class GroupController {
         })
     }
     getGroupById(req,res){
-        groupService.getGroup(req.params.id).then(group => {
-            res.json({group:group});
+        groupService.getGroup(req.params.id).then(result => {
+            res.json({groupList:[result]});
         }).catch(error => {
             res.status(400);
             res.json({error:"something went wrong"});
@@ -95,7 +95,14 @@ module.exports = class GroupController {
         })
     }
     addTimeslotForGroup(req,res){
-
+        groupService.addTimeslotForGroup(req.body,req.params.groupId)
+            .then(result => {
+                res.json({data:result});
+            })
+            .catch(error =>{
+                res.status(400);
+                res.json({error:"something went wrong"});
+            })
     }
     updateTimeslotInGroup(req,res){
 
@@ -106,7 +113,16 @@ module.exports = class GroupController {
     getMessages(req,res){
 
     }
-    voteForActivityInGroup(req,res){}
+    voteForActivityInGroup(req,res){
+        groupService.voteForActivityInGroup(req.params.groupId,req.params.timeSlotID)
+            .then(result => {
+                res.json({data:result});
+            })
+            .catch(error =>{
+                res.status(400);
+                res.json({error:"something went wrong"});
+            })
+    }
     removeVoteForActivityInGroup(req,res){}
     updateTimeslotNameInGroup(req,res){}
     voteForTimeslotInGroup(req,res){}
