@@ -61,7 +61,6 @@ module.exports = class GroupService {
         });
     }
     getFriends(userID){
-        console.log(userID);
         return new Promise((resolve, reject) => {
             this.userRepository.getFriends(userID)
                 .then(result => resolve(result))

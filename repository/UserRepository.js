@@ -1,5 +1,6 @@
 const UserModel = require('../model/UserModel');
 const graph = require('fbgraph');
+
 module.exports = class UserRepository {
         constructor() {}
         getUserById(userID) {
@@ -66,7 +67,6 @@ module.exports = class UserRepository {
             }
             getFriends(userID) {
                 return new Promise((resolve, reject) => {
-                    console.log(userID);
                     UserModel.findOne({
                             '_id': userID
                         })
@@ -75,7 +75,6 @@ module.exports = class UserRepository {
                             if (error) {
                                 reject(error);
                             }
-                            console.log(result);
                             
                             resolve(result.friends);
                         });
