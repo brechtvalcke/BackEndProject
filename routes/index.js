@@ -11,5 +11,5 @@ module.exports = function (app, passport) {
         res.status(404).send("path does not match an api route");
     }
     app.route('/api/*')
-        .get(apiNotFoundRes)
+        .get(apiNotFoundRes);
 };

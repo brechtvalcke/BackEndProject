@@ -1,6 +1,6 @@
 let GroupModel = require('../model/GroupModel');
 
-module.exports = class GroupRepositorie {
+module.exports = class GroupRepository {
     constructor() {}
 
     getGroups(userID) {

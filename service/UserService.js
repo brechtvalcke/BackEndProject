@@ -1,20 +1,20 @@
-let UserRepositorie = require('../repository/UserRepositorie');
+let UserRepository = require('../repository/UserRepository');
 
 module.exports = class GroupService {
     constructor() {
-        this.userRepositorie = new UserRepositorie();
+        this.userRepository = new UserRepository();
     }
     getOrCreateUserOnLogin(fbProfile,accesToken){
         return new Promise((resolve,reject) => {
-            this.userRepositorie.getUserById(fbProfile.id)
+            this.userRepository.getUserById(fbProfile.id)
             .then(result => {
                 if (result !==null){
-                    this.userRepositorie.getFriendsWithToken(fbProfile,accesToken).then(friends => {
+                    this.userRepository.getFriendsWithToken(fbProfile,accesToken).then(friends => {
                         let friendArray = [];
                         friends.data.forEach(friend => {
                             friendArray.push(friend.id);
                         });
-                        this.userRepositorie.updateUserWithFbProfile(fbProfile,accesToken,friendArray).then(newUser => {
+                        this.userRepository.updateUserWithFbProfile(fbProfile,accesToken,friendArray).then(newUser => {
                             resolve(newUser);
                         })
                         .catch(error => {
@@ -29,14 +29,14 @@ module.exports = class GroupService {
                 }
                 else
                 {
-                    this.userRepositorie.getFriendsWithToken(fbProfile,accesToken).then(friends => {
+                    this.userRepository.getFriendsWithToken(fbProfile,accesToken).then(friends => {
                         let friendArray = [];
                         friends.data.forEach(friend => {
                             friendArray.push(friend.id);
                         });
-                    this.userRepositorie.createUserWithFbProfile(fbProfile,accesToken,friendArray)
+                    this.userRepository.createUserWithFbProfile(fbProfile,accesToken,friendArray)
                     .then(succes => {
-                        this.userRepositorie.getUserById(fbProfile.id)
+                        this.userRepository.getUserById(fbProfile.id)
                         .then( userAfterCreate => {
                             if (userAfterCreate !==null){
                                 resolve(userAfterCreate);
@@ -61,8 +61,9 @@ module.exports = class GroupService {
         });
     }
     getFriends(userID){
+        console.log(userID);
         return new Promise((resolve, reject) => {
-            this.userRepositorie.getFriends(userID)
+            this.userRepository.getFriends(userID)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
         });
@@ -70,7 +71,7 @@ module.exports = class GroupService {
 
     getNearbyFriends(userID){
         return new Promise((resolve, reject) => {
-            this.userRepositorie.getNearbyFriends(userID)
+            this.userRepository.getNearbyFriends(userID)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
         });
@@ -78,7 +79,7 @@ module.exports = class GroupService {
 
     updateLocation(userID,body){
         return new Promise((resolve, reject) => {
-            this.userRepositorie.updateLocation(userID,body)
+            this.userRepository.updateLocation(userID,body)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
         });

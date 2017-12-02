@@ -1,6 +1,6 @@
 const UserModel = require('../model/UserModel');
 const graph = require('fbgraph');
-module.exports = class UserRepositorie {
+module.exports = class UserRepository {
         constructor() {}
         getUserById(userID) {
             return new Promise((resolve, reject) => {
@@ -66,19 +66,19 @@ module.exports = class UserRepositorie {
             }
             getFriends(userID) {
                 return new Promise((resolve, reject) => {
-                    UserModel.find({
+                    console.log(userID);
+                    UserModel.findOne({
                             '_id': userID
                         })
-                        .sort({
-                            name: 'asc'
-                        })
-                        .limit(25)
-                        .exec((error, results) => {
+                        .populate('friends')
+                        .exec((error, result) => {
                             if (error) {
                                 reject(error);
                             }
-                            resolve(results);
-                        })
+                            console.log(result);
+                            
+                            resolve(result.friends);
+                        });
                 });
             }
 

@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 let userModel = new Schema({
     _id: String,
     lastLocation: Number,
-    friends: [String],
+    friends: [this],
     photoUrl: String,
     lastLogin: Date,
     name: String,
