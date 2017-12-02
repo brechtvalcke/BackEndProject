@@ -1,8 +1,8 @@
-let GroupRepositorie = require('../repository/GroupRepositorie');
+let GroupRepository = require('../repository/GroupRepository');
 let GroupModel = require("../model/GroupModel");
 module.exports = class GroupService {
     constructor(){
-        this.groupRepositorie = new GroupRepositorie();
+        this.groupRepositorie = new GroupRepository();
     }
 
     getGroups(userID){
