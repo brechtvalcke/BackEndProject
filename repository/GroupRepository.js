@@ -141,4 +141,19 @@ module.exports = class GroupRepository {
             }
         });
     }
+
+    getAllActivities(){
+        return new Promise((resolve,reject) => {
+            GroupModel.find()
+                .sort({
+                    name: 'asc'
+                })
+                .exec((error, results) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    resolve(results);
+                })
+        });
+    }
 };
