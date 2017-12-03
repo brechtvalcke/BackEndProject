@@ -15,7 +15,7 @@ let groupSchema = new Schema({
     activity: [{
         _id:  { type: Schema.ObjectId, auto: true },
         name: {type: String, required: true},
-        users: [{userID: String}],
+        votes: [{userID: String}],
     }],
     users:[{
         _id: {type: String, required: true},

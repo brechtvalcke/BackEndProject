@@ -141,4 +141,16 @@ module.exports = class GroupService {
         });
     }
 
+    getAllActivities(){
+        return new Promise((resolve,reject) => {
+            this.groupRepositorie.getAllActivities()
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
 };
