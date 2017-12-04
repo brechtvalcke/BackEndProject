@@ -128,14 +128,4 @@ module.exports = class GroupController {
     voteForTimeslotInGroup(req,res){}
     removeVoteForTimeslotInGroup(req,res){}
 
-    getAllActivities(req,res){
-        groupService.getAllActivities()
-            .then(result => {
-                res.json({data:result});
-            })
-            .catch(error =>{
-                res.status(400);
-                res.json({error:"something went wrong"});
-            })
-    }
 }

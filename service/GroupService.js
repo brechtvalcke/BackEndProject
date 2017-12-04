@@ -1,5 +1,6 @@
 let GroupRepository = require('../repository/GroupRepository');
 let GroupModel = require("../model/GroupModel");
+
 module.exports = class GroupService {
     constructor(){
         this.groupRepositorie = new GroupRepository();
@@ -140,17 +141,4 @@ module.exports = class GroupService {
                 })
         });
     }
-
-    getAllActivities(){
-        return new Promise((resolve,reject) => {
-            this.groupRepositorie.getAllActivities()
-                .then(result => {
-                    resolve(result);
-                })
-                .catch(error => {
-                    reject(error);
-                })
-        });
-    }
-
 };
