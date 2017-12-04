@@ -79,7 +79,7 @@ module.exports = class GroupService {
             const activity = {
                 name: body.name,
                 users: [{userID:userID}]
-            }
+            };
             this.groupRepositorie.addActivityForGroup(activity,groupID)
             .then(result => {
                 resolve(result);
@@ -95,7 +95,7 @@ module.exports = class GroupService {
                 _id:body._id,
                 name: body.name,
                 users: body.users,
-            }
+            };
             this.groupRepositorie.updateActivityInGroup(activity,groupID)
             .then(result => {
                 resolve(result);
