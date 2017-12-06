@@ -129,10 +129,22 @@ module.exports = class GroupService {
         });
     }
 
-    voteForActivityInGroup(groupID,timeSlotID){
+    voteForTimeSlotInGroup(groupID,timeSlotID,userID){
+        return new Promise((resolve,reject) => {
+            this.groupRepositorie.voteForTimeSlotInGroup(groupID,timeSlotID,userID)
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
+    voteForActivityInGroup(groupID,activityID){
         return new Promise((resolve,reject) => {
             let userID = "1499811716733810";
-            this.groupRepositorie.voteForActivityInGroup(groupID,timeSlotID,userID)
+            this.groupRepositorie.voteForActivityInGroup(groupID,activityID,userID)
                 .then(result => {
                     resolve(result);
                 })
