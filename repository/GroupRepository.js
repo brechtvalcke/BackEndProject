@@ -1,14 +1,16 @@
 let GroupModel = require('../model/GroupModel');
+let mongoose = require("mongoose");
 
 module.exports = class GroupRepository {
-    constructor() {}
+    constructor() {
+    }
 
     getGroups(userID) {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
             GroupModel.find({
-                    'users._id': userID
-                })
+                'users._id': userID
+            })
                 .sort({
                     createdOn: 'desc'
                 })
@@ -24,16 +26,26 @@ module.exports = class GroupRepository {
 
     getGroup(groupID) {
         return new Promise((resolve, reject) => {
-            GroupModel.findOne({
-                    '_id': groupID
-                })
-                .exec((error, results) => {
-                    if (error) {
-                        reject(error);
-                    }
+            GroupModel.aggregate([
+                {
+                    $match: { "_id": mongoose.Types.ObjectId(groupID)}
+                },
+                {
+                    $lookup: {
+                            from: "users",
+                            localField: "users._id",
+                            foreignField: "_id",
+                            as: "users"
+                        }
+                }
+            ]).exec((error, results) => {
+                if (error) {
+                    reject(error);
+                }
 
-                    resolve(results);
-                })
+                resolve(results);
+            });
+
         });
     }
 
@@ -52,7 +64,8 @@ module.exports = class GroupRepository {
             }
         });
     }
-    updateGroupName(updateGroupName,groupID) {
+
+    updateGroupName(updateGroupName, groupID) {
         return new Promise((resolve, reject) => {
             try {
                 GroupModel.findByIdAndUpdate(groupID, updateGroupName, function (err, res) {
@@ -67,94 +80,104 @@ module.exports = class GroupRepository {
         })
 
     }
-    addActivityForGroup(activity,groupID){
-        return new Promise((resolve,reject)=> {
-            try{
+
+    addActivityForGroup(activity, groupID) {
+        return new Promise((resolve, reject) => {
+            try {
                 GroupModel.update(
                     {_id: groupID},
-                    { $push: {activity:activity}},
-                    function(err,raw){
-                        if(err){
+                    {$push: {activity: activity}},
+                    function (err, raw) {
+                        if (err) {
                             reject(err);
                         }
                         resolve(raw);
                     }
                 )
-            }catch(error) {
+            } catch (error) {
                 reject(error);
             }
         })
     }
-    updateActivityInGroup(activity,groupID){
-        return new Promise((resolve,reject)=>{
-            try{
+
+    updateActivityInGroup(activity, groupID) {
+        return new Promise((resolve, reject) => {
+            try {
                 GroupModel.update(
-                    {_id: groupID, "activity._id":activity._id},
-                    {$set:{
-                        "activity.$":activity
-                    }},
-                    function(err,raw){
-                        if(err){
+                    {_id: groupID, "activity._id": activity._id},
+                    {
+                        $set: {
+                            "activity.$": activity
+                        }
+                    },
+                    function (err, raw) {
+                        if (err) {
                             reject(err);
                         }
                         resolve(raw);
                     }
                 )
-            }catch(error){
+            } catch (error) {
                 reject(error);
             }
         });
     }
 
-    addTimeslotForGroup(body,groupID){
-        return new Promise((resolve,reject) => {
-            try{
+    addTimeslotForGroup(body, groupID) {
+        return new Promise((resolve, reject) => {
+            try {
                 GroupModel.update(
-                    {_id:groupID},
-                    {$push: {timeSlot:body}},
-                    function(err,raw) {
+                    {_id: groupID},
+                    {$push: {timeSlot: body}},
+                    function (err, raw) {
                         if (err) {
                             reject(err);
                         }
                         resolve(raw);
                     })
-            }catch (error){
+            } catch (error) {
                 reject(error);
             }
         });
     }
 
-    voteForTimeSlotInGroup(groupID,timeSlotID,userID){
-        return new Promise((resolve,reject) => {
-            try{
-                GroupModel.update(
-                    {_id:groupID, "timeSlotID._id": timeSlotID},
-                    {$push: {"timeSlot.votes" :userID}},
-                    function(err,raw) {
+    voteForTimeSlotInGroup(groupID, timeSlotID, userID) {
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.update({
+                        _id: mongoose.Types.ObjectId(groupID),
+                        "timeSlot._id": mongoose.Types.ObjectId(timeSlotID)
+                    },
+                    {
+                        $addToSet: {
+                            "timeSlot.$.votes":"test123"
+                        }
+                    },
+                    function (err, raw) {
                         if (err) {
                             reject(err);
                         }
                         resolve(raw);
                     })
-            }catch (error){
+            } catch (error) {
                 reject(error);
             }
         });
     }
 
-    voteForActivityInGroup(groupID,activityID,userID){
-        return new Promise((resolve,reject) => {
-            try{
+    voteForActivityInGroup(groupID, activityID, userID) {
+        return new Promise((resolve, reject) => {
+            try {
                 GroupModel.update(
-                    {_id:groupID, "activity._id": activityID},
-                    {$push: {"activity.votes" :userID}},
-                    function(err,raw) {
+                    {_id: groupID, "activity._id": activityID},
+                    {$push: {"activity.votes": userID}},
+                    function (err, raw) {
                         if (err) {
                             reject(err);
                         }
                         resolve(raw);
                     })
-            }catch (error){
+            } catch (error) {
                 reject(error);
             }
         });

@@ -38,7 +38,7 @@ module.exports = class GroupController {
     }
     getGroupById(req,res){
         groupService.getGroup(req.params.id).then(result => {
-            res.json({groupList:[result]});
+            res.json({groupList:result});
         }).catch(error => {
             res.status(400);
             res.json({error:"something went wrong"});
@@ -127,7 +127,7 @@ module.exports = class GroupController {
     removeVoteForActivityInGroup(req,res){}
     updateTimeslotNameInGroup(req,res){}
     voteForTimeslotInGroup(req,res){
-        groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeSlotID)
+        groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeSlotID,"test123")
             .then(result => {
                 res.json({data:result});
             })
