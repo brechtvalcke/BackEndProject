@@ -24,7 +24,9 @@ module.exports = class GroupController {
         let users = [];
         users.push({_id:req.user.data._id,accepted:true});
         req.body.users.forEach(user => {
-            users.push({_id:user._id, accepted:false});
+            if(user._id !== req.user.data._id){
+                users.push({_id:user._id, accepted:false});
+            }
         });
         
 
