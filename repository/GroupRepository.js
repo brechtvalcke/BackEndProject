@@ -52,11 +52,11 @@ module.exports = class GroupRepository {
     createGroup(group) {
         return new Promise((resolve, reject) => {
             try {
-                group.save(error => {
+                group.save((error,group) => {
                     if (error) {
                         reject(error);
                     } else {
-                        resolve(true);
+                        resolve(group._id);
                     }
                 });
             } catch (error) {

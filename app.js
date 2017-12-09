@@ -10,7 +10,7 @@ const settings = require('./settings');
 const FacebookTokenStrategy = require('passport-facebook-token');
 
 const mongoose = require('mongoose');
-mongoose.connect(settings.mongoDb.getConnectionString());
+mongoose.connect(settings.mongoDb.getConnectionString(),{useMongoClient:true});
 
 const globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,FacebookTokenStrategy);
 

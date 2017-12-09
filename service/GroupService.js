@@ -35,7 +35,11 @@ module.exports = class GroupService {
             // TODO call facebook API to send invite
             try {
                 Promise.all(promises)
-                    .then(result => resolve(result))
+                    .then(result => {
+                        let addedGroup = new GroupModel();
+                        addedGroup._id = result[0];
+                        resolve(addedGroup)
+                    })
                     .catch(error => {
                         console.log(error);
                         reject(error);

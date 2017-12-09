@@ -15,7 +15,7 @@ module.exports = class activityController{
     }
 
     addActivity(req,res){
-        console.log(res.body);
+        console.log(req.body);
         activityService.addActivity(res.body)
             .then(result => {
                 res.json({activityList:[result]});

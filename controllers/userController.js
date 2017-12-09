@@ -9,7 +9,7 @@ module.exports = class UserController {
         .then(friends => {
             res
             .status(200)
-            .json({UserList:friends})
+            .json({userList:friends})
         })
         .catch(error => {
             res.status(400)
