@@ -18,7 +18,7 @@ let groupSchema = new Schema({
         votes: [{userID: String}],
     }],
     users:[{
-        _id: {type: String, required: true},
+        _id: {type : String, required: true},
         accepted: { type: Boolean, default: false }
     }],
     messages:[{senderId: String, message: {}, dateSent: { type: Date, default: Date.now() }, usersViewed : {_id: String}}],

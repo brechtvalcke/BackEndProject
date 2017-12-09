@@ -16,25 +16,32 @@ module.exports = class GroupController {
         })
     }
     addGroup(req,res){
+        console.log(req.body.users);
         if(req.body.name === undefined || req.body.name === null || req.body.name === ""){
             const now = new Date();
             req.body.name= req.user.data.name + "'s event " + now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
         }
-        req.body.users.push({_id:req.user.data._id,accepted:true})
+        let users = [];
+        users.push({_id:req.user.data._id,accepted:true});
+        req.body.users.forEach(user => {
+            users.push({_id:user._id, accepted:false});
+        });
+        
+
         let groupToCreate = new GroupModel({
             name: req.body.name,
-            users: req.body.users,
+            users: users,
             createBy: req.user.data._id,
             createdOn: new Date()
         });
         groupService.createGroup(groupToCreate)
-        .then(result => {
-            res.json(result);
+        .then(group => {
+            res.json(group);
         })
         .catch(error => {
             res.status(400);
             res.json({error: "something went wrong"})
-        })
+        });
     }
     getGroupById(req,res){
         groupService.getGroup(req.params.id).then(result => {
