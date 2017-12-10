@@ -4,7 +4,6 @@ let mongoose = require("mongoose");
 module.exports = class GroupRepository {
     constructor() {
     }
-
     getGroups(userID) {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
@@ -85,7 +84,7 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             try {
                 GroupModel.update(
-                    {_id: groupID},
+                    {_id: mongoose.Types.ObjectId(groupID)},
                     {$push: {activity: activity}},
                     function (err, raw) {
                         if (err) {
@@ -104,7 +103,7 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             try {
                 GroupModel.update(
-                    {_id: groupID, "activity._id": activity._id},
+                    {_id: mongoose.Types.ObjectId(groupID), "activity._id": mongoose.Types.ObjectId(activity._id)},
                     {
                         $set: {
                             "activity.$": activity
@@ -150,7 +149,7 @@ module.exports = class GroupRepository {
                     },
                     {
                         $addToSet: {
-                            "timeSlot.$.votes":"test123"
+                            "timeSlot.$.votes": userID
                         }
                     },
                     function (err, raw) {
