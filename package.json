@@ -21,11 +21,13 @@
     "body-parser": "^1.18.1",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "fbgraph": "^1.4.1",
     "fs": "0.0.1-security",
     "glob": "^7.1.2",
     "helmet": "^3.9.0",
+    "html": "^1.0.0",
     "md5": "^2.2.1",
     "memory-cache": "^0.2.0",
     "mongoose": "^4.13.4",
@@ -34,7 +36,10 @@
     "nodemon": "^1.12.1",
     "objectid": "^3.2.1",
     "passport": "^0.4.0",
-    "passport-facebook-token": "^3.3.0"
+    "passport-facebook-token": "^3.3.0",
+    "redis": "^2.8.0",
+    "socket.io": "^2.0.4",
+    "socket.io-redis": "^5.2.0"
   },
   "devDependencies": {}
 }

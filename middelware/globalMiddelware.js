@@ -25,13 +25,12 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
         
       }
     ));
-    
     // uncomment block to log body before parser
     app.use(function(req,res,next) {
         console.log(req.body);
         next();
     });
-    
+
     app.use(passport.initialize());
     // Start compression (g-zip: verkleint files 3x ongeveer)
     app.use(compression());
