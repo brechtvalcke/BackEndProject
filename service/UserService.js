@@ -60,6 +60,11 @@ module.exports = class GroupService {
             });
         });
     }
+    getProfileWithToken(accesToken) {
+        return new Promise((resolve,reject) => {
+            this.userRepository.getProfileWithToken(accesToken);
+        });
+    }
     getFriends(userID){
         return new Promise((resolve, reject) => {
             this.userRepository.getFriends(userID)

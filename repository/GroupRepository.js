@@ -4,7 +4,6 @@ let mongoose = require("mongoose");
 module.exports = class GroupRepository {
     constructor() {
     }
-
     getGroups(userID) {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
@@ -101,7 +100,7 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             try {
                 GroupModel.update(
-                    {_id: groupID},
+                    {_id: mongoose.Types.ObjectId(groupID)},
                     {$push: {activity: activity}},
                     function (err, raw) {
                         if (err) {
@@ -120,7 +119,7 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             try {
                 GroupModel.update(
-                    {_id: groupID, "activity._id": activity._id},
+                    {_id: mongoose.Types.ObjectId(groupID), "activity._id": mongoose.Types.ObjectId(activity._id)},
                     {
                         $set: {
                             "activity.$": activity
@@ -160,6 +159,7 @@ module.exports = class GroupRepository {
     voteForTimeSlotInGroup(groupID, timeSlotID, userID) {
         return new Promise((resolve, reject) => {
             try {
+<<<<<<< HEAD
                 GroupModel.update({
                         _id: mongoose.Types.ObjectId(groupID),
                         "timeSlot._id": mongoose.Types.ObjectId(timeSlotID)
@@ -167,14 +167,26 @@ module.exports = class GroupRepository {
                     {
                         $addToSet: {
                             "timeSlot.$.votes": "test123"
+=======
+                GroupModel.findOne({'_id':groupID})
+                .exec((err,res) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    for (let i = 0;i<= res.timeSlot.length-1;i++) {
+                        if (res.timeSlot[i]._id.toString() === timeSlotID) {
+                            res.timeSlot[i].votes.push(userID);
+>>>>>>> de56ca1804f550db6bfd9fcf73d8f9440772d8b2
                         }
-                    },
-                    function (err, raw) {
-                        if (err) {
+                    }
+                    res.save(err => {
+                        if(err){
                             reject(err);
                         }
-                        resolve(raw);
-                    })
+                        resolve(res);
+                    });
+
+                });
             } catch (error) {
                 reject(error);
             }
@@ -184,15 +196,27 @@ module.exports = class GroupRepository {
     voteForActivityInGroup(groupID, activityID, userID) {
         return new Promise((resolve, reject) => {
             try {
-                GroupModel.update(
-                    {_id: groupID, "activity._id": activityID},
-                    {$push: {"activity.votes": userID}},
-                    function (err, raw) {
-                        if (err) {
+                GroupModel.findOne({'_id':groupID})
+                .exec((err,res) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    
+                    for (let i = 0;i<= res.activity.length-1;i++) {
+                        if (res.activity[i]._id.toString() === activityID) {
+                            res.activity[i].votes.push(userID);
+                        }
+                    }
+                    res.save(err => {
+                        if(err){
                             reject(err);
                         }
-                        resolve(raw);
-                    })
+                        resolve(res);
+                    });
+
+                });
+                
+          
             } catch (error) {
                 reject(error);
             }

@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 const fs = require("fs");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -8,9 +10,17 @@ const helmet = require('helmet');
 const passport = require('passport');
 const settings = require('./settings');
 const FacebookTokenStrategy = require('passport-facebook-token');
-
 const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
 mongoose.connect(settings.mongoDb.getConnectionString(),{useMongoClient:true});
+
+
+const redis = require('redis').createClient;
+const adapter = require('socket.io-redis');
+const pub = redis(13185, "redis-13185.c6.eu-west-1-1.ec2.cloud.redislabs.com", { auth_pass: "Win$4ever" });
+const sub = redis(13185, "redis-13185.c6.eu-west-1-1.ec2.cloud.redislabs.com", { auth_pass: "Win$4ever" });
+io.adapter(adapter({ pubClient: pub, subClient: sub }));
 
 const globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,FacebookTokenStrategy);
 
@@ -25,5 +35,5 @@ app.get("*", function (req, res) {
     fs.createReadStream("./public/index.html").pipe(res);
 });
 
-app.listen(process.env.port || process.env.PORT || 80);
+app.listen(settings.express.port);
 

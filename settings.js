@@ -1,6 +1,8 @@
 
 module.exports = {
-
+    express:{
+        port:process.env.PORT || 80
+    },
     facebookAuth: {
         FACEBOOK_APP_ID:"397459757339390",
         FACEBOOK_APP_SECRET:"2e1bb38c2dfa65b7cf06770ab24da0da",

@@ -144,9 +144,8 @@ module.exports = class GroupService {
         });
     }
 
-    voteForActivityInGroup(groupID,activityID){
+    voteForActivityInGroup(groupID,activityID,userID){
         return new Promise((resolve,reject) => {
-            let userID = "1499811716733810";
             this.groupRepositorie.voteForActivityInGroup(groupID,activityID,userID)
                 .then(result => {
                     resolve(result);

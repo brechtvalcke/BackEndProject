@@ -8,14 +8,14 @@ let groupSchema = new Schema({
     timeSlot: [{
         _id:  { type: Schema.ObjectId, auto: true },
         time: Date,
-        votes: { type: [String], default: null },
+        votes: [{ type: [String], default: null }],
         selected: { type: Boolean, default: false },
 
     }],
     activity: [{
         _id:  { type: Schema.ObjectId, auto: true },
         name: {type: String, required: true},
-        votes: [{userID: String}],
+        votes: [{ type: [String], default: null }],
     }],
     users:[{
         _id: {type : String, required: true},

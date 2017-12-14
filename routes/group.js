@@ -24,8 +24,8 @@ module.exports = function(app, passport) {
     .put(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.updateActivityNameInGroup); //TODO
 
     app.route(groupRoute + "activity/vote/:groupId/:activityID")
-    .put(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.voteForActivityInGroup) //TODO
-    .delete(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.removeVoteForActivityInGroup); //TODO
+    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForActivityInGroup) //TODO
+    .delete(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.removeVoteForActivityInGroup); //TODO
     // Timeslot Routes
     app.route(groupRoute + "timeslot/:groupId")
     .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllTimeslotsForGroup) //DONE
@@ -36,8 +36,8 @@ module.exports = function(app, passport) {
     .put(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.updateTimeslotNameInGroup); //TODO
 
     app.route(groupRoute + "timeslot/vote/:groupId/:timeslotID")
-    .put(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.voteForTimeslotInGroup) //TODO
-    .delete(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.removeVoteForTimeslotInGroup); //TODO
+    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForTimeslotInGroup) //TODO
+    .delete(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.removeVoteForTimeslotInGroup); //TODO
     // message Routes
     app.route(groupRoute + "message/:groupId")
     .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getMessages); //TODO

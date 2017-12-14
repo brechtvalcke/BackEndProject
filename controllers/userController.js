@@ -1,5 +1,8 @@
 const UserService = require('../service/UserService');
 const userService = new UserService();
+const fs = require('fs');
+var path = require('path');
+global.appRoot = path.resolve(__dirname);
 module.exports = class UserController {
     constructor() {
         
