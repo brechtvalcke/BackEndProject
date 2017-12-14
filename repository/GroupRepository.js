@@ -143,21 +143,26 @@ module.exports = class GroupRepository {
     voteForTimeSlotInGroup(groupID, timeSlotID, userID) {
         return new Promise((resolve, reject) => {
             try {
-                GroupModel.update({
-                        _id: mongoose.Types.ObjectId(groupID),
-                        "timeSlot._id": mongoose.Types.ObjectId(timeSlotID)
-                    },
-                    {
-                        $addToSet: {
-                            "timeSlot.$.votes": userID
+                GroupModel.findOne({'_id':groupID})
+                .exec((err,res) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    console.log(timeSlotID);
+                    for (let i = 0;i<= res.timeSlot.length-1;i++) {
+                        if (res.timeSlot[i]._id.toString() === timeSlotID) {
+                            console.log(res.timeSlot[i]);
+                            res.timeSlot[i].votes.push(userID);
                         }
-                    },
-                    function (err, raw) {
-                        if (err) {
+                    }
+                    res.save(err => {
+                        if(err){
                             reject(err);
                         }
-                        resolve(raw);
-                    })
+                        resolve(res);
+                    });
+
+                });
             } catch (error) {
                 reject(error);
             }
@@ -167,15 +172,27 @@ module.exports = class GroupRepository {
     voteForActivityInGroup(groupID, activityID, userID) {
         return new Promise((resolve, reject) => {
             try {
-                GroupModel.update(
-                    {_id: groupID, "activity._id": activityID},
-                    {$push: {"activity.votes": userID}},
-                    function (err, raw) {
-                        if (err) {
+                GroupModel.findOne({'_id':groupID})
+                .exec((err,res) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    
+                    for (let i = 0;i<= res.activity.length-1;i++) {
+                        if (res.activity[i]._id.toString() === activityID) {
+                            res.activity[i].votes.push(userID);
+                        }
+                    }
+                    res.save(err => {
+                        if(err){
                             reject(err);
                         }
-                        resolve(raw);
-                    })
+                        resolve(res);
+                    });
+
+                });
+                
+          
             } catch (error) {
                 reject(error);
             }
