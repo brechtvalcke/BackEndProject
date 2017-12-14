@@ -28,15 +28,15 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             GroupModel.aggregate([
                 {
-                    $match: { "_id": mongoose.Types.ObjectId(groupID)}
+                    $match: {"_id": mongoose.Types.ObjectId(groupID)}
                 },
                 {
                     $lookup: {
-                            from: "users",
-                            localField: "users._id",
-                            foreignField: "_id",
-                            as: "users"
-                        }
+                        from: "users",
+                        localField: "users._id",
+                        foreignField: "_id",
+                        as: "users"
+                    }
                 }
             ]).exec((error, results) => {
                 if (error) {
@@ -49,10 +49,26 @@ module.exports = class GroupRepository {
         });
     }
 
+    removeOldGroups(userID) {
+        return new Promise((resolve, reject) => {
+            let now = Date.now();
+
+            GroupModel.remove({
+                'users._id': ObjectId(userID),
+                'createdOn': {$lt: now}
+            }).exec((error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve(results);
+            })
+        });
+    }
+
     createGroup(group) {
         return new Promise((resolve, reject) => {
             try {
-                group.save((error,group) => {
+                group.save((error, group) => {
                     if (error) {
                         reject(error);
                     } else {
@@ -150,7 +166,7 @@ module.exports = class GroupRepository {
                     },
                     {
                         $addToSet: {
-                            "timeSlot.$.votes":"test123"
+                            "timeSlot.$.votes": "test123"
                         }
                     },
                     function (err, raw) {

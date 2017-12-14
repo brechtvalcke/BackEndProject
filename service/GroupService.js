@@ -8,11 +8,14 @@ module.exports = class GroupService {
 
     getGroups(userID){
         return new Promise((resolve, reject) => {
-            this.groupRepositorie.getGroups(userID)
-                .then(result => resolve(result))
+            this.groupRepositorie.removeOldGroups(userID)
+                .then(result => {
+                    console.log(result);
+                    this.groupRepositorie.getGroups(userID)
+                        .then(result => resolve(result))
+                        .catch(error => reject(error));
+                })
                 .catch(error => reject(error));
-
-            //TODO get users profile image URL from fb??
         });
     }
 
@@ -22,15 +25,11 @@ module.exports = class GroupService {
                 .then(result => resolve(result))
                 .catch(error => reject(error));
 
-            //TODO get users profile image URL from fb??
-
         });
     }
 
     createGroup(groupToCreate){
         return new Promise((resolve, reject) => {
-
-
             let promises = [this.groupRepositorie.createGroup(groupToCreate)];
             // TODO call facebook API to send invite
             try {
