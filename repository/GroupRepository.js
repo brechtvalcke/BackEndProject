@@ -148,10 +148,8 @@ module.exports = class GroupRepository {
                     if(err) {
                         reject(err);
                     }
-                    console.log(timeSlotID);
                     for (let i = 0;i<= res.timeSlot.length-1;i++) {
                         if (res.timeSlot[i]._id.toString() === timeSlotID) {
-                            console.log(res.timeSlot[i]);
                             res.timeSlot[i].votes.push(userID);
                         }
                     }
