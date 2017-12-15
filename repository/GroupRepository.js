@@ -159,15 +159,6 @@ module.exports = class GroupRepository {
     voteForTimeSlotInGroup(groupID, timeSlotID, userID) {
         return new Promise((resolve, reject) => {
             try {
-<<<<<<< HEAD
-                GroupModel.update({
-                        _id: mongoose.Types.ObjectId(groupID),
-                        "timeSlot._id": mongoose.Types.ObjectId(timeSlotID)
-                    },
-                    {
-                        $addToSet: {
-                            "timeSlot.$.votes": "test123"
-=======
                 GroupModel.findOne({'_id':groupID})
                 .exec((err,res) => {
                     if(err) {
@@ -175,10 +166,47 @@ module.exports = class GroupRepository {
                     }
                     for (let i = 0;i<= res.timeSlot.length-1;i++) {
                         if (res.timeSlot[i]._id.toString() === timeSlotID) {
-                            res.timeSlot[i].votes.push(userID);
->>>>>>> de56ca1804f550db6bfd9fcf73d8f9440772d8b2
+                            let userAlreadyVoted = false;
+                            res.timeSlot[i].votes.forEach(vote => {
+                                if (vote === userID) {
+                                    userAlreadyVoted = true;
+                                }
+                            });
+                            if(!userAlreadyVoted){
+                                res.timeSlot[i].votes.push(userID);
+                            }
                         }
                     }
+                    res.save(err => {
+                        if(err){
+                            reject(err);
+                        }
+                        resolve(res);
+                    });
+
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+    removeVoteForTimeSlotInGroup(groupID, timeSlotID, userID) {
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.findOne({'_id':groupID})
+                .exec((err,res) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    for (let i = 0;i<= res.timeSlot.length-1;i++) {
+                        if (res.timeSlot[i]._id.toString() === timeSlotID) {
+    
+                            res.timeSlot[i].votes = res.timeSlot[i].votes.filter(function(a) {
+                                return a != userID
+                            });
+                        }
+                    }
+                    console.log(res);
                     res.save(err => {
                         if(err){
                             reject(err);
@@ -204,7 +232,49 @@ module.exports = class GroupRepository {
                     
                     for (let i = 0;i<= res.activity.length-1;i++) {
                         if (res.activity[i]._id.toString() === activityID) {
-                            res.activity[i].votes.push(userID);
+                            let userAlreadyVoted = false;
+                            res.activity[i].votes.forEach(vote => {
+                                if (vote === userID) {
+                                    userAlreadyVoted = true;
+                                }
+                            });
+                            if(!userAlreadyVoted){
+                                res.activity[i].votes.push(userID);
+                            }
+
+                        }
+                    }
+                    res.save(err => {
+                        if(err){
+                            reject(err);
+                        }
+                        resolve(res);
+                    });
+
+                });
+                
+          
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+    removeVoteForActivityInGroup(groupID, activityID, userID) {
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.findOne({'_id':groupID})
+                .exec((err,res) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    
+                    for (let i = 0;i<= res.activity.length-1;i++) {
+                        if (res.activity[i]._id.toString() === activityID) {
+
+                            res.activity[i].votes = res.activity[i].votes.filter(function(a) {
+                                return a != userID
+                            });
+
                         }
                     }
                     res.save(err => {

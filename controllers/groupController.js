@@ -134,7 +134,15 @@ module.exports = class GroupController {
                 res.json({error:"something went wrong"});
             })
     }
-    removeVoteForActivityInGroup(req,res){}
+    removeVoteForActivityInGroup(req,res){
+        groupService.removeVoteForActivityInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id).then(result => {
+            res.json({data:result});
+        })
+        .catch(error =>{
+            res.status(400);
+            res.json({error:"something went wrong"});
+        })
+    }
     updateTimeslotNameInGroup(req,res){}
     voteForTimeslotInGroup(req,res){
         groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id)
@@ -146,6 +154,14 @@ module.exports = class GroupController {
                 res.json({error:"something went wrong"});
             })
     }
-    removeVoteForTimeslotInGroup(req,res){}
+    removeVoteForTimeslotInGroup(req,res){
+        groupService.removeVoteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id).then(result => {
+            res.json({data:result});
+        })
+        .catch(error =>{
+            res.status(400);
+            res.json({error:"something went wrong"});
+        })
+    }
 
 }

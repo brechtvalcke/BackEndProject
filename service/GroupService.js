@@ -143,6 +143,17 @@ module.exports = class GroupService {
                 })
         });
     }
+    removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID){
+        return new Promise((resolve,reject) => {
+            this.groupRepositorie.removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        })
+    }
 
     voteForActivityInGroup(groupID,activityID,userID){
         return new Promise((resolve,reject) => {
@@ -154,5 +165,16 @@ module.exports = class GroupService {
                     reject(error);
                 })
         });
+    }
+    removeVoteForActivityInGroup(groupID,activityID,userID) {
+        return new Promise((resolve,reject) => {
+            this.groupRepositorie.removeVoteForActivityInGroup(groupID,timeSlotID,userID)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        })
     }
 };
