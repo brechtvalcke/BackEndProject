@@ -3,7 +3,6 @@ const GroupModel = require('./../model/GroupModel');
 const groupService = new GroupService();
 module.exports = class GroupController {
     constructor(){
-        
     }
     getMyGroups(req,res){
         groupService.getGroups(req.user.data._id)
