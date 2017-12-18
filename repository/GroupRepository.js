@@ -163,9 +163,12 @@ module.exports = class GroupRepository {
                     {'_id': groupID, 'timeSlot._id': timeSlotID},
                     {$addToSet: {"timeSlot.$.votes": userID}},
                     function(err,affected){
-                        if (affected === 0){
+                        if (err){
+                            reject(err);
+                        }
+                        if (affected.nModified === 0){
                             return new Promise((resolve, reject) => {
-                                this.removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
+                                new GroupRepository().removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
                                     .then(result => {
                                         resolve(result);
                                     })
@@ -218,10 +221,8 @@ module.exports = class GroupRepository {
             try {
                 GroupModel.update(
                     {'_id': groupID, 'timeSlot._id': timeSlotID},
-                    {$pull: {"timeSlot":{"votes": userID}}},
+                    {$pull: {"timeSlot.$.votes": userID}},
                     (err,affected) =>{
-                        console.log("error: " + err);
-                        console.log("result: " + affected);
                         if (err){
                             reject(err);
                         }
@@ -263,16 +264,18 @@ module.exports = class GroupRepository {
                     {'_id': groupID, 'activity._id': activityID},
                     {$addToSet: {"activity.$.votes": userID}},
                     function(err,affected){
-                        if (affected === 0){
-                            return new Promise((resolve, reject) => {
-                                this.removeVoteForActivityInGroup(groupID,activityID,userID)
-                                    .then(result => {
-                                        resolve(result);
-                                    })
-                                    .catch(error => {
-                                        reject(error);
-                                    })
-                            });
+                        console.log(affected);
+                        if (err){
+                            reject(err);
+                        }
+                        if (affected.nModified === 0){
+                            new GroupRepository().removeVoteForActivityInGroup(groupID,activityID,userID)
+                                .then(result => {
+                                    resolve(result);
+                                })
+                                .catch(error => {
+                                    reject(error);
+                                })
                         }
 
                         resolve(affected);
@@ -311,6 +314,7 @@ module.exports = class GroupRepository {
             } catch (error) {
                 reject(error);
             }
+
         });
     }
     removeVoteForActivityInGroup(groupID, activityID, userID) {
@@ -318,10 +322,8 @@ module.exports = class GroupRepository {
             try {
                 GroupModel.update(
                     {'_id': groupID, 'activity._id': activityID},
-                    {$pull: {"activity":{"votes": userID}}},
+                    {$pull: {"activity.$.votes":userID}},
                     (err,affected) =>{
-                        console.log("error: " + err);
-                        console.log("result: " + affected);
                         if (err){
                             reject(err);
                         }
