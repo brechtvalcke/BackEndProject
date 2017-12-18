@@ -7,6 +7,27 @@ module.exports = class GroupRepository {
     getGroups(userID) {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
+            GroupModel.aggregate([
+                {
+                    $match: {'users._id': userID},
+
+                },
+                { $sort: { createdOn: -1 } },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "users._id",
+                        foreignField: "_id",
+                        as: "users"
+                    }
+                }
+            ]).exec((error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve(results);
+            });
+            /*
             GroupModel.find({
                 'users._id': userID
             })
@@ -19,7 +40,7 @@ module.exports = class GroupRepository {
                     }
 
                     resolve(results);
-                })
+                })*/
         });
     }
 

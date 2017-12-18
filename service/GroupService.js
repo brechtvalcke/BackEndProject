@@ -8,6 +8,9 @@ module.exports = class GroupService {
 
     getGroups(userID){
         return new Promise((resolve, reject) => {
+            this.groupRepositorie.getGroups(userID)
+                .then(result => resolve(result))
+                .catch(error => reject(error));/*
             this.groupRepositorie.removeOldGroups(userID)
                 .then(result => {
                     console.log(result);
@@ -15,7 +18,7 @@ module.exports = class GroupService {
                         .then(result => resolve(result))
                         .catch(error => reject(error));
                 })
-                .catch(error => reject(error));
+                .catch(error => reject(error));*/
         });
     }
 
