@@ -22,18 +22,17 @@ const pub = redis(13185, "redis-13185.c6.eu-west-1-1.ec2.cloud.redislabs.com", {
 const sub = redis(13185, "redis-13185.c6.eu-west-1-1.ec2.cloud.redislabs.com", { auth_pass: "Win$4ever" });
 io.adapter(adapter({ pubClient: pub, subClient: sub }));
 
+const socket = require("./socket")(app,io);
+
 const globalMiddelware = require("./middelware/globalMiddelware")(app, passport, cookieParser, bodyParser,helmet,compression,FacebookTokenStrategy);
 
-
 //routes
-const routes = require('./routes')(app, passport); // params meegeven voor dependency injection (zorgen dat deze zaken maar 1 keer over de volledige node worden ingeladen)
+const routes = require('./routes')(app, passport);
 
-// file routing here (can be put in a differend file if you like however this is the only functions you need for file serving)
-app.use(express.static('public')); // this is middleware but belongs in file routing because this middelware gives acces to all files in public folder. This creates a file serving that works like apache.
-
+app.use("/public", express.static(__dirname + '/public'));
 app.get("*", function (req, res) {
-    fs.createReadStream("./public/index.html").pipe(res);
+    res.sendFile(__dirname + '/public/index.html');
 });
 
-app.listen(settings.express.port);
+server.listen(settings.express.port);
 

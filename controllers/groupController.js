@@ -16,7 +16,6 @@ module.exports = class GroupController {
         })
     }
     addGroup(req,res){
-        console.log(req.body.users);
         if(req.body.name === undefined || req.body.name === null || req.body.name === ""){
             const now = new Date();
             req.body.name= req.user.data.name + "'s event " + now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
@@ -128,8 +127,7 @@ module.exports = class GroupController {
             .then(result => {
                 res.json({data:result});
             })
-            .catch(error =>{
-                console.log(error);
+            .catch(error => {
                 res.status(400);
                 res.json({error:"something went wrong"});
             })
@@ -138,7 +136,7 @@ module.exports = class GroupController {
         groupService.removeVoteForActivityInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id).then(result => {
             res.json({data:result});
         })
-        .catch(error =>{
+        .catch(error => {
             res.status(400);
             res.json({error:"something went wrong"});
         })

@@ -8,6 +8,7 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
         clientID: settings.facebookAuth.FACEBOOK_APP_ID,
         clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
       }, function(accessToken, refreshToken, profile, done) {
+          
         userService.getOrCreateUserOnLogin(profile,accessToken)
         .then( user => {
             let reqUser = {
@@ -26,10 +27,10 @@ module.exports = function (app,passport, cookieParser,bodyParser,helmet,compress
       }
     ));
     // uncomment block to log body before parser
-    app.use(function(req,res,next) {
-        console.log(req.body);
-        next();
-    });
+    // app.use(function(req,res,next) {
+    //     console.log(req.body);
+    //     next();
+    // });
 
     app.use(passport.initialize());
     // Start compression (g-zip: verkleint files 3x ongeveer)

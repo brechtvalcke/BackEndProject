@@ -1,1 +1,8 @@
 test
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script>
+  const socket = io('http://localhost:80');
+  socket.on("connected",function(){
+      console.log("test");
+  })
+</script>

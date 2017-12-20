@@ -1,27 +1,81 @@
 
 let settings = require('./../settings');
+const fs = require('fs');
+const UserService = require("../service/UserService");
+const userService = new UserService();
+const groupService = new (require("../service/GroupService"))();
 
 const handleNoAcces = (socket) => {
     console.log("user tried to do something he has no permission for");
-    socket.disconnect();
 };
-const UserService = require("../service/UserService");
-const userService = new UserService();
+const joinMyGroupRooms = (socket,io) => {
+    groupService.getGroups(socket.user.data._id).then(groups => {
+        groups.forEach(group => {
+            io.of('/').adapter.remoteJoin(socket.id, group._id, (err) => {
+                if (err) { console.log(err);}
+              });
+              
+        });
+        socket.emit("groupsJoined",groups);
+    }).catch(error => {
+        console.log("could not fetch groups");
+    })
+};
+
+
 module.exports = function (app, io) {
-   
     io.on('connection', function (socket) {
         socket.emit("connected");
         socket.on("auth",authData => {
+            if(typeof(authData) !== "object"){
+                authData=JSON.parse(authData);
+            }
             userService.getProfileWithToken(authData.acces_token)
             .then(fbProfile => {
-                console.log(fbProfile);
+                userService.getOrCreateUserOnLogin(fbProfile,authData.acces_token)
+                .then( user => {
+                    let reqUser = {
+                        data:user,
+                        accessToken:authData.acces_token,
+                        fbProfile:fbProfile,
+                    };
+                    socket.user=reqUser;
+                    socket.acces=true;
+                    socket.emit("authSucces");
+                    joinMyGroupRooms(socket,io);
+                })
+                .catch( error => {
+                    console.log(error);
+                    socket.acces=false;
+                    socket.emit("authFailed");
+                    socket.disconnect();
+                });
                 
             })
             .catch(error => {
-                console.log(error);
+                
             });
         });
-
+        socket.on("message",(groupID, messageContent) => {
+            
+            if (socket.acces) {
+            // TODO: check if user is member of group
+                let message = {
+                    senderId: socket.user.data._id,
+                    message: messageContent,
+                    usersViewed: [],
+                    dateSent : new Date(),
+                }
+                groupService.sendMessage(groupID,message).then(result => {
+                    io.sockets.to(groupID).emit("message", message);
+                })
+                .catch(error => {
+                    socket.emit("messageFailed",message);
+                })
+            } else {
+                handleNoAcces(socket);
+            }
+        });
     });
 
 };

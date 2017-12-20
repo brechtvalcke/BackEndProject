@@ -17,6 +17,7 @@ module.exports = class UserRepository {
                 });
         });
     }
+    
     createUserWithFbProfile(fbProfile, accesToken, friends) {
         return new Promise((resolve, reject) => {
             let user = new UserModel({
@@ -69,7 +70,7 @@ module.exports = class UserRepository {
         return new Promise((resolve, reject) => {
             graph.setAccessToken(accessToken);
             var graphObject = graph
-                .get("me/", function (err, res) {
+                .get("/me?fields=id,name,picture,gender,email,photos,friends", function (err, res) {
                     if (err) {
                         reject(err);
                     }

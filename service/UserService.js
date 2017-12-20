@@ -62,7 +62,26 @@ module.exports = class GroupService {
     }
     getProfileWithToken(accesToken) {
         return new Promise((resolve,reject) => {
-            this.userRepository.getProfileWithToken(accesToken);
+            this.userRepository.getProfileWithToken(accesToken).then(result => {
+                let friendArray = [];
+                result.friends.data.forEach(friend => {
+                    friendArray.push(friend.id);
+                });
+                const FormattedProfile = {
+                    displayName: result.name,
+                    id:result.id,
+                    photos: [
+                        {value:result.picture.data.url}
+                    ],
+                    emails:[
+                        {value:result.email}
+                    ]
+                }
+                resolve(FormattedProfile);
+            })
+            .catch(error => {
+                reject(error);
+            })
         });
     }
     getFriends(userID){

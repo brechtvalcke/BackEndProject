@@ -37,12 +37,12 @@ module.exports = class GroupRepository {
                             as: "users"
                         }
                 }
-            ]).exec((error, results) => {
+            ]).exec((error, result) => {
                 if (error) {
                     reject(error);
                 }
 
-                resolve(results);
+                resolve(result);
             });
 
         });
@@ -276,5 +276,19 @@ module.exports = class GroupRepository {
             }
         });
     }
+    addMessageToGroup(GroupId,message) {
+        return new Promise((resolve,reject) => {
+            GroupModel.update(
+                {_id: GroupId},
+                {$push: { messages: message }},
+                err => {
+                    if(err) {
+                        reject(err);
+                    }
+                    resolve(true);
+                }
+            );
+        });
 
+    }
 };

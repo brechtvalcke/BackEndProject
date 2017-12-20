@@ -3,12 +3,12 @@ let GroupModel = require("../model/GroupModel");
 
 module.exports = class GroupService {
     constructor(){
-        this.groupRepositorie = new GroupRepository();
+        this.groupRepository = new GroupRepository();
     }
 
     getGroups(userID){
         return new Promise((resolve, reject) => {
-            this.groupRepositorie.getGroups(userID)
+            this.groupRepository.getGroups(userID)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
 
@@ -16,9 +16,10 @@ module.exports = class GroupService {
         });
     }
 
+
     getGroup(groupID){
         return new Promise((resolve, reject) => {
-            this.groupRepositorie.getGroup(groupID)
+            this.groupRepository.getGroup(groupID)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
 
@@ -31,7 +32,7 @@ module.exports = class GroupService {
         return new Promise((resolve, reject) => {
 
 
-            let promises = [this.groupRepositorie.createGroup(groupToCreate)];
+            let promises = [this.groupRepository.createGroup(groupToCreate)];
             // TODO call facebook API to send invite
             try {
                 Promise.all(promises)
@@ -58,7 +59,7 @@ module.exports = class GroupService {
     updateGroupName(newName,groupID) {
         return new Promise((resolve, reject) => {
             let nameUpdateJson = {name:newName};
-            this.groupRepositorie.updateGroupName(nameUpdateJson,groupID)
+            this.groupRepository.updateGroupName(nameUpdateJson,groupID)
             .then(result => {
                 resolve(result);
             })
@@ -84,7 +85,7 @@ module.exports = class GroupService {
                 name: body.name,
                 users: [{userID:userID}]
             };
-            this.groupRepositorie.addActivityForGroup(activity,groupID)
+            this.groupRepository.addActivityForGroup(activity,groupID)
             .then(result => {
                 resolve(result);
             })
@@ -100,7 +101,7 @@ module.exports = class GroupService {
                 name: body.name,
                 users: body.users,
             };
-            this.groupRepositorie.updateActivityInGroup(activity,groupID)
+            this.groupRepository.updateActivityInGroup(activity,groupID)
             .then(result => {
                 resolve(result);
             })
@@ -123,7 +124,7 @@ module.exports = class GroupService {
 
     addTimeslotForGroup(body,groupID){
         return new Promise((resolve,reject) => {
-            this.groupRepositorie.addTimeslotForGroup(body,groupID)
+            this.groupRepository.addTimeslotForGroup(body,groupID)
                 .then(result => {
                     resolve(result);
                 })
@@ -135,7 +136,7 @@ module.exports = class GroupService {
 
     voteForTimeSlotInGroup(groupID,timeSlotID,userID){
         return new Promise((resolve,reject) => {
-            this.groupRepositorie.voteForTimeSlotInGroup(groupID,timeSlotID,userID)
+            this.groupRepository.voteForTimeSlotInGroup(groupID,timeSlotID,userID)
                 .then(result => {
                     resolve(result);
                 })
@@ -146,7 +147,7 @@ module.exports = class GroupService {
     }
     removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID){
         return new Promise((resolve,reject) => {
-            this.groupRepositorie.removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
+            this.groupRepository.removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
             .then(result => {
                 resolve(result);
             })
@@ -158,7 +159,7 @@ module.exports = class GroupService {
 
     voteForActivityInGroup(groupID,activityID,userID){
         return new Promise((resolve,reject) => {
-            this.groupRepositorie.voteForActivityInGroup(groupID,activityID,userID)
+            this.groupRepository.voteForActivityInGroup(groupID,activityID,userID)
                 .then(result => {
                     resolve(result);
                 })
@@ -169,7 +170,7 @@ module.exports = class GroupService {
     }
     removeVoteForActivityInGroup(groupID,activityID,userID) {
         return new Promise((resolve,reject) => {
-            this.groupRepositorie.removeVoteForActivityInGroup(groupID,timeSlotID,userID)
+            this.groupRepository.removeVoteForActivityInGroup(groupID,timeSlotID,userID)
             .then(result => {
                 resolve(result);
             })
@@ -177,5 +178,18 @@ module.exports = class GroupService {
                 reject(error);
             })
         })
+    }
+    sendMessage(groupID,message) {
+        return new Promise((resolve,reject) => {
+
+            this.groupRepository.addMessageToGroup(groupID,message)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            });
+
+        });
     }
 };
