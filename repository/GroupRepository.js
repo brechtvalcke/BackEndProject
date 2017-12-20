@@ -7,6 +7,27 @@ module.exports = class GroupRepository {
     getGroups(userID) {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
+            GroupModel.aggregate([
+                {
+                    $match: {'users._id': userID},
+
+                },
+                { $sort: { createdOn: -1 } },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "users._id",
+                        foreignField: "_id",
+                        as: "users"
+                    }
+                }
+            ]).exec((error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve(results);
+            });
+            /*
             GroupModel.find({
                 'users._id': userID
             })
@@ -19,7 +40,7 @@ module.exports = class GroupRepository {
                     }
 
                     resolve(results);
-                })
+                })*/
         });
     }
 
@@ -27,15 +48,15 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             GroupModel.aggregate([
                 {
-                    $match: { "_id": mongoose.Types.ObjectId(groupID)}
+                    $match: {"_id": mongoose.Types.ObjectId(groupID)}
                 },
                 {
                     $lookup: {
-                            from: "users",
-                            localField: "users._id",
-                            foreignField: "_id",
-                            as: "users"
-                        }
+                        from: "users",
+                        localField: "users._id",
+                        foreignField: "_id",
+                        as: "users"
+                    }
                 }
             ]).exec((error, result) => {
                 if (error) {
@@ -48,10 +69,26 @@ module.exports = class GroupRepository {
         });
     }
 
+    removeOldGroups(userID) {
+        return new Promise((resolve, reject) => {
+            let now = Date.now();
+
+            GroupModel.remove({
+                'users._id': ObjectId(userID),
+                'createdOn': {$lt: now}
+            }).exec((error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve(results);
+            })
+        });
+    }
+
     createGroup(group) {
         return new Promise((resolve, reject) => {
             try {
-                group.save((error,group) => {
+                group.save((error, group) => {
                     if (error) {
                         reject(error);
                     } else {
@@ -143,6 +180,32 @@ module.exports = class GroupRepository {
     voteForTimeSlotInGroup(groupID, timeSlotID, userID) {
         return new Promise((resolve, reject) => {
             try {
+                GroupModel.update(
+                    {'_id': groupID, 'timeSlot._id': timeSlotID},
+                    {$addToSet: {"timeSlot.$.votes": userID}},
+                    function(err,affected){
+                        if (err){
+                            reject(err);
+                        }
+                        if (affected.nModified === 0){
+                            return new Promise((resolve, reject) => {
+                                new GroupRepository().removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
+                                    .then(result => {
+                                        resolve(result);
+                                    })
+                                    .catch(error => {
+                                        reject(error);
+                                    })
+                            });
+                        }
+
+                        resolve(affected);
+                    });
+            }catch (error){
+                reject(error);
+            }
+/*
+            try {
                 GroupModel.findOne({'_id':groupID})
                 .exec((err,res) => {
                     if(err) {
@@ -171,12 +234,22 @@ module.exports = class GroupRepository {
                 });
             } catch (error) {
                 reject(error);
-            }
+            }*/
         });
     }
     removeVoteForTimeSlotInGroup(groupID, timeSlotID, userID) {
         return new Promise((resolve, reject) => {
             try {
+                GroupModel.update(
+                    {'_id': groupID, 'timeSlot._id': timeSlotID},
+                    {$pull: {"timeSlot.$.votes": userID}},
+                    (err,affected) =>{
+                        if (err){
+                            reject(err);
+                        }
+                        resolve(affected);
+                    });
+                /*
                 GroupModel.findOne({'_id':groupID})
                 .exec((err,res) => {
                     if(err) {
@@ -198,7 +271,7 @@ module.exports = class GroupRepository {
                         resolve(res);
                     });
 
-                });
+                });*/
             } catch (error) {
                 reject(error);
             }
@@ -208,6 +281,27 @@ module.exports = class GroupRepository {
     voteForActivityInGroup(groupID, activityID, userID) {
         return new Promise((resolve, reject) => {
             try {
+                GroupModel.update(
+                    {'_id': groupID, 'activity._id': activityID},
+                    {$addToSet: {"activity.$.votes": userID}},
+                    function(err,affected){
+                        console.log(affected);
+                        if (err){
+                            reject(err);
+                        }
+                        if (affected.nModified === 0){
+                            new GroupRepository().removeVoteForActivityInGroup(groupID,activityID,userID)
+                                .then(result => {
+                                    resolve(result);
+                                })
+                                .catch(error => {
+                                    reject(error);
+                                })
+                        }
+
+                        resolve(affected);
+                    });
+                /*
                 GroupModel.findOne({'_id':groupID})
                 .exec((err,res) => {
                     if(err) {
@@ -236,16 +330,27 @@ module.exports = class GroupRepository {
                     });
 
                 });
-                
+                */
           
             } catch (error) {
                 reject(error);
             }
+
         });
     }
     removeVoteForActivityInGroup(groupID, activityID, userID) {
         return new Promise((resolve, reject) => {
             try {
+                GroupModel.update(
+                    {'_id': groupID, 'activity._id': activityID},
+                    {$pull: {"activity.$.votes":userID}},
+                    (err,affected) =>{
+                        if (err){
+                            reject(err);
+                        }
+                        resolve(affected);
+                    });
+                /*
                 GroupModel.findOne({'_id':groupID})
                 .exec((err,res) => {
                     if(err) {
@@ -269,8 +374,7 @@ module.exports = class GroupRepository {
                     });
 
                 });
-                
-          
+                */
             } catch (error) {
                 reject(error);
             }
