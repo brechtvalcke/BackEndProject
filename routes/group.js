@@ -8,9 +8,13 @@ module.exports = function(app, passport) {
     app.route(groupRoute)
     .get(passport.authenticate('facebook-token', {session:false}),groupController.getMyGroups)
     .post(passport.authenticate('facebook-token', {session:false}),groupController.addGroup);
-    
+
+    app.route(groupRoute + "invites")
+        .get(passport.authenticate('facebook-token', {session:false}),groupController.getInvites);
+
     app.route(groupRoute + ":id")
     .get(passport.authenticate('facebook-token', {session:false}),groupController.getGroupById);
+
 
     app.route(groupRoute + "changeName/:groupId")
     .put(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.updateGroupName);

@@ -27,20 +27,20 @@ module.exports = class GroupRepository {
                 }
                 resolve(results);
             });
-            /*
-            GroupModel.find({
-                'users._id': userID
-            })
-                .sort({
-                    createdOn: 'desc'
-                })
-                .exec((error, results) => {
-                    if (error) {
-                        reject(error);
-                    }
+        });
+    }
 
-                    resolve(results);
-                })*/
+    getInvites(userID){
+        return new Promise((resolve,reject) => {
+            GroupModel.aggregate([
+                {$match: {'users._id': userID,'users.accepted': 'false'}},
+                { $sort: { createdOn: -1 } },
+            ]).exec((error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve(results);
+            });
         });
     }
 
@@ -66,22 +66,6 @@ module.exports = class GroupRepository {
                 resolve(result);
             });
 
-        });
-    }
-
-    removeOldGroups(userID) {
-        return new Promise((resolve, reject) => {
-            let now = Date.now();
-
-            GroupModel.remove({
-                'users._id': ObjectId(userID),
-                'createdOn': {$lt: now}
-            }).exec((error, results) => {
-                if (error) {
-                    reject(error);
-                }
-                resolve(results);
-            })
         });
     }
 
@@ -136,6 +120,25 @@ module.exports = class GroupRepository {
         })
     }
 
+    getLastAddedActivity(groupID,activityName){
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.find({
+                    '_id': groupID,
+                    'activity.name': activityName
+                }).exec((error, results) => {
+                        if (error) {
+                            reject(error);
+                        }
+
+                        resolve(results);
+                    })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+
     updateActivityInGroup(activity, groupID) {
         return new Promise((resolve, reject) => {
             try {
@@ -168,6 +171,7 @@ module.exports = class GroupRepository {
                     function (err, raw) {
                         if (err) {
                             reject(err);
+                            console.log(err);
                         }
                         resolve(raw);
                     })
@@ -175,6 +179,24 @@ module.exports = class GroupRepository {
                 reject(error);
             }
         });
+    }
+
+    getLastAddedTimeslot(groupID,timeSlot){
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.find({
+                    '_id': groupID,
+                    'timeSlot.time': timeSlot.time
+                }).exec((error, results) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    resolve(results);
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
     }
 
     voteForTimeSlotInGroup(groupID, timeSlotID, userID) {
