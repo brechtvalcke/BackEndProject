@@ -95,7 +95,6 @@ module.exports = function (app, io) {
                                 _id:groupID,
                                 messages: messages,
                             };
-                            console.log(data);
                             socket.emit("messagesOfGroupId", data);
                         })
                         .catch(err => {
