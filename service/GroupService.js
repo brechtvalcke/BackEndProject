@@ -21,7 +21,13 @@ module.exports = class GroupService {
                 .catch(error => reject(error));*/
         });
     }
-
+    getInvites(userID){
+        return new Promise((resolve, reject) => {
+            this.groupRepository.getInvites(userID)
+                .then(result => resolve(result))
+                .catch(error => reject(error));
+        });
+    }
 
     getGroup(groupID){
         return new Promise((resolve, reject) => {

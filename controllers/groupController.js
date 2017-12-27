@@ -10,9 +10,13 @@ module.exports = class GroupController {
             res.json({groupList:result});
         })
         .catch(error => {
-            res.status(400);
-            res.json({error: "something went wrong"})
+            res.status(400).json({error: "something went wrong"});
         })
+    }
+    getInvites(req,res){
+        groupService.getInvites(req.user.data._id)
+            .then(result => { res.json({groupList:result}); })
+            .catch(error => { res.status(400).json({error: "something went wrong"}) })
     }
     addGroup(req,res){
         if(req.body.name === undefined || req.body.name === null || req.body.name === ""){
@@ -47,8 +51,7 @@ module.exports = class GroupController {
         groupService.getGroup(req.params.id).then(result => {
             res.json({groupList:result});
         }).catch(error => {
-            res.status(400);
-            res.json({error:"something went wrong"});
+            res.status(400).json({error:"something went wrong"});
         })
     }
 
@@ -58,8 +61,7 @@ module.exports = class GroupController {
             res.json({changed:true});
         })
         .catch(error => {
-            res.status(400);
-            res.json({error:"something went wrong"});
+            res.status(400).json({error:"something went wrong"});
         })
     }
     getAllActivitiesForGroup(req,res){
@@ -68,8 +70,7 @@ module.exports = class GroupController {
             res.json({data:result});
         })
         .catch(error =>{
-            res.status(400);
-            res.json({error:"something went wrong"});
+            res.status(400).json({error:"something went wrong"});
         })
     }
     addActivityForGroup(req,res){
@@ -78,8 +79,7 @@ module.exports = class GroupController {
             res.json({activityList: [result] });
         })
         .catch(error => {
-            res.status(400);
-            res.json({error:"something went wrong"});
+            res.status(400).json({error:"something went wrong"});
         })
     }
     updateActivityInGroup(req,res){
@@ -97,8 +97,7 @@ module.exports = class GroupController {
             res.json({data:result});
         })
         .catch(error =>{
-            res.status(400);
-            res.json({error:"something went wrong"});
+            res.status(400).json({error:"something went wrong"});
         })
     }
     addTimeslotForGroup(req,res){
@@ -107,8 +106,7 @@ module.exports = class GroupController {
                 res.json({timeSlotList:[result]});
             })
             .catch(error =>{
-                res.status(400);
-                res.json({error:"something went wrong"});
+                res.status(400).json({error:"something went wrong"});
             })
     }
     updateTimeslotInGroup(req,res){
@@ -127,8 +125,7 @@ module.exports = class GroupController {
                 res.json({data:result});
             })
             .catch(error => {
-                res.status(400);
-                res.json({error:"something went wrong"});
+                res.status(400).json({error:"something went wrong"});
             })
     }
     removeVoteForActivityInGroup(req,res){
@@ -136,8 +133,7 @@ module.exports = class GroupController {
             res.json({data:result});
         })
         .catch(error => {
-            res.status(400);
-            res.json({error:"something went wrong"});
+            res.status(400).json({error:"something went wrong"});
         })
     }
     updateTimeslotNameInGroup(req,res){}
@@ -147,8 +143,7 @@ module.exports = class GroupController {
                 res.json({data:result});
             })
             .catch(error =>{
-                res.status(400);
-                res.json({error:"something went wrong"});
+                res.status(400).json({error:"something went wrong"});
             })
     }
     removeVoteForTimeslotInGroup(req,res){
@@ -156,8 +151,7 @@ module.exports = class GroupController {
             res.json({data:result});
         })
         .catch(error =>{
-            res.status(400);
-            res.json({error:"something went wrong"});
+            res.status(400).json({error:"something went wrong"});
         })
     }
 

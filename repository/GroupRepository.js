@@ -27,20 +27,20 @@ module.exports = class GroupRepository {
                 }
                 resolve(results);
             });
-            /*
-            GroupModel.find({
-                'users._id': userID
-            })
-                .sort({
-                    createdOn: 'desc'
-                })
-                .exec((error, results) => {
-                    if (error) {
-                        reject(error);
-                    }
+        });
+    }
 
-                    resolve(results);
-                })*/
+    getInvites(userID){
+        return new Promise((resolve,reject) => {
+            GroupModel.aggregate([
+                {$match: {'users._id': userID,'users.accepted': 'false'}},
+                { $sort: { createdOn: -1 } },
+            ]).exec((error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve(results);
+            });
         });
     }
 
