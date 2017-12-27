@@ -41,8 +41,8 @@ module.exports = function (app, io) {
                     };
                     socket.user=reqUser;
                     socket.acces=true;
-                    socket.emit("authSucces");
                     joinMyGroupRooms(socket,io);
+                    socket.emit("authSucces");
                 })
                 .catch( error => {
                     console.log(error);
@@ -67,7 +67,8 @@ module.exports = function (app, io) {
                     dateSent : new Date(),
                 }
                 groupService.sendMessage(groupID,message).then(result => {
-                    io.sockets.to(groupID).emit("message", message);
+
+                    io.sockets.to(groupID).emit("message", message,groupID);
                 })
                 .catch(error => {
                     socket.emit("messageFailed",message);
@@ -76,6 +77,42 @@ module.exports = function (app, io) {
                 handleNoAcces(socket);
             }
         });
+        socket.on("GetMessagesByGroupId", groupID => {
+            if (socket.acces) {
+                // check member of room
+                memberOfGroup = false;
+                groupService.getGroups(socket.user.data._id).then(groups => {
+ 
+                    groups.forEach(group => {
+                          if(group._id + "" === groupID){
+                              memberOfGroup = true;
+                          }
+                    });
+                    if(memberOfGroup){
+                        groupService.getMessagesByGroupID(groupID)
+                        .then(messages => {
+                            data = {
+                                _id:groupID,
+                                messages: messages,
+                            };
+                            console.log(data);
+                            socket.emit("messagesOfGroupId", data);
+                        })
+                        .catch(err => {
+                            socket.emit("GettingMessagesFailed",groupID);
+                        });
+                    }else{
+                        handleNoAcces(socket);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
+
+            } else {
+                handleNoAcces(socket);
+            }
+        });
+        
     });
 
 };

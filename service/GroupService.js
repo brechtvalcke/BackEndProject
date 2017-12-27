@@ -195,4 +195,15 @@ module.exports = class GroupService {
 
         });
     }
+    getMessagesByGroupID(groupID) {
+        return new Promise((resolve, reject) => {
+            this.groupRepository.getMessagesByGroupID(groupID)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        });
+    }
 };

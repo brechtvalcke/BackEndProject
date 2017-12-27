@@ -395,4 +395,19 @@ module.exports = class GroupRepository {
         });
 
     }
+    getMessagesByGroupID(groupID) {
+        return new Promise((resolve,reject) => {
+            GroupModel.findOne({
+                _id:groupID
+            },{
+                messages:true,
+                _id:false,
+            },(err,res) => {
+                if(err){
+                    reject(err);
+                }
+                resolve(res.messages);
+            })
+        });
+    }
 };
