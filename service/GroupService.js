@@ -90,13 +90,26 @@ module.exports = class GroupService {
             };
             this.groupRepository.addActivityForGroup(activity,groupID)
             .then(result => {
-                resolve(result);
+                this.getLastAddedActivity(groupID,activity.name)
+                    .then(result => { resolve(result)})
+                    .catch(error => { reject(error); })
             })
             .catch(error => {
                 reject(error);
             })
         });
     }
+
+    getLastAddedActivity(groupID,activityName){
+        return new Promise((resolve, reject) => {
+            this.groupRepository.getLastAddedActivity(groupID,activityName)
+                .then(result => {
+                    resolve(result[0].activity[result[0].activity.length - 1]);
+                })
+                .catch(error => { console.log(error);reject(error); })
+        });
+    }
+
     updateActivityInGroup(body,groupID){
         return new Promise((resolve, reject) => {
             const activity = {
@@ -129,11 +142,23 @@ module.exports = class GroupService {
         return new Promise((resolve,reject) => {
             this.groupRepository.addTimeslotForGroup(body,groupID)
                 .then(result => {
-                    resolve(result);
+                    this.getLastAddedTimeslot(groupID,body)
+                        .then(result => { resolve(result) })
+                        .catch(error => { reject(error); })
                 })
                 .catch(error => {
                     reject(error);
                 })
+        });
+    }
+
+    getLastAddedTimeslot(groupID,timeSlot){
+        return new Promise((resolve, reject) => {
+            this.groupRepository.getLastAddedTimeslot(groupID,timeSlot)
+                .then(result => {
+                    resolve(result[0].timeSlot[result[0].timeSlot.length - 1]);
+                })
+                .catch(error => { console.log(error);reject(error); })
         });
     }
 

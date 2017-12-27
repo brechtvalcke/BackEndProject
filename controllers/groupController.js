@@ -75,7 +75,7 @@ module.exports = class GroupController {
     addActivityForGroup(req,res){
         groupService.addActivityForGroup(req.body,req.params.groupId,req.user.data._id)
         .then(result => {
-            res.json({added:true});
+            res.json({activityList: [result] });
         })
         .catch(error => {
             res.status(400);
@@ -104,7 +104,7 @@ module.exports = class GroupController {
     addTimeslotForGroup(req,res){
         groupService.addTimeslotForGroup(req.body,req.params.groupId)
             .then(result => {
-                res.json({data:result});
+                res.json({timeSlotList:[result]});
             })
             .catch(error =>{
                 res.status(400);
