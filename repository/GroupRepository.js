@@ -72,8 +72,9 @@ module.exports = class GroupRepository {
     removeOldGroups(userID) {
         return new Promise((resolve, reject) => {
             let now = Date.now();
+            now.setData(now.getDay() - 14);
 
-            GroupModel.remove({
+            GroupModel.deleteMany({
                 'users._id': ObjectId(userID),
                 'createdOn': {$lt: now}
             }).exec((error, results) => {
