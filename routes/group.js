@@ -12,7 +12,6 @@ module.exports = function(app, passport) {
     app.route(groupRoute + ":id")
     .get(passport.authenticate('facebook-token', {session:false}),groupController.getGroupById);
 
-
     app.route(groupRoute + "invites")
         .get(passport.authenticate('facebook-token', {session:false}),groupController.getMyGroups);
 
