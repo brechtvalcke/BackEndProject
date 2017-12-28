@@ -59,20 +59,23 @@ module.exports = function (app, io) {
         socket.on("message",(groupID, messageContent) => {
             
             if (socket.acces) {
+                if(messageContent !== "" && messageContent){
             // TODO: check if user is member of group
-                let message = {
-                    senderId: socket.user.data._id,
-                    message: messageContent,
-                    usersViewed: [],
-                    dateSent : new Date(),
-                }
-                groupService.sendMessage(groupID,message).then(result => {
+                    let message = {
+                        senderId: socket.user.data._id,
+                        message: messageContent,
+                        usersViewed: [],
+                        dateSent : new Date(),
+                    }
+                    groupService.sendMessage(groupID,message).then(result => {
 
-                    io.sockets.to(groupID).emit("message", message,groupID);
-                })
-                .catch(error => {
-                    socket.emit("messageFailed",message);
-                })
+                        io.sockets.to(groupID).emit("message", message,groupID);
+                    })
+                    .catch(error => {
+                        socket.emit("messageFailed",message);
+                    })
+                }
+
             } else {
                 handleNoAcces(socket);
             }
