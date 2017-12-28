@@ -45,10 +45,10 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             try {
                 GroupModel.update(
-                    {_id: mongoose.Types.ObjectId(groupID), "users._id": mongoose.Types.ObjectId(userID)},
+                    {_id: groupID, "users._id": userID},
                     {
                         $set: {
-                            "users.accepted": true
+                            "users.$.accepted": true
                         }
                     },
                     function (err, raw) {
@@ -68,7 +68,7 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             try {
                 GroupModel.update(
-                    {_id: groupID, "users._id": userID, "users.accepted": false},
+                    {_id: groupID, users:{"_id": userID, "accepted": false} },
                     {$pull: {"users": {"_id": userID}}},
                     function (err, raw) {
                         if (err) {
