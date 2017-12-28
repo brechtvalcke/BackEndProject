@@ -8,13 +8,7 @@ module.exports = class GroupRepository {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
             GroupModel.aggregate([
-                {
-                    $match: {
-                        'users._id': userID,
-                        'users.accepted': true
-                    },
-
-                },
+                { $match: { 'users': {'_id': userID, 'accepted': true}} },
                 { $sort: { createdOn: -1 } },
                 {
                     $lookup: {
@@ -36,7 +30,7 @@ module.exports = class GroupRepository {
     getInvites(userID){
         return new Promise((resolve,reject) => {
             GroupModel.aggregate([
-                {$match: {'users._id': userID,'users.accepted': false}},
+                { $match: { 'users': {'_id': userID, 'accepted': false}} },
                 { $sort: { createdOn: -1 } },
             ]).exec((error, results) => {
                 if (error) {
