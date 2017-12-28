@@ -93,7 +93,16 @@ module.exports = class UserRepository {
                 });
         });
     }
-
+    getUserById(userID) {
+        return new Promise((resolve, reject) => {
+            UserModel.findOne({_id:userID}, (err, res) => {
+                if(err){
+                    reject(err);
+                }
+                resolve(res);
+            });
+        });
+    }
     getNearbyFriends(userID) {
         return new Promise((resolve, reject) => {
 

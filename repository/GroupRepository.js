@@ -468,7 +468,22 @@ module.exports = class GroupRepository {
                     reject(err);
                 }
                 resolve(res.messages);
-            })
+            });
+        });
+    }
+    getUsersInGroup(groupID) {
+        return new Promise((resolve,reject) => {
+            GroupModel.findOne({
+                _id:groupID
+            },{
+                users:true,
+                _id:false,
+            },(err,res) => {
+                if(err){
+                    reject(err);
+                }
+                resolve(res.users);
+            });
         });
     }
 };

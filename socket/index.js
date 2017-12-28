@@ -77,6 +77,20 @@ module.exports = function (app, io) {
                 handleNoAcces(socket);
             }
         });
+        socket.on("GetUsersInGroup", groupID => {
+            if(socket.acces) {
+                groupService.getUserObjectsByGroupId(groupID)
+                .then(users => {
+                    data = {
+                        users:users,
+                    }
+                    socket.emit("usersForGroup",data);
+                })
+                .catch(error => console.log(error));
+            }else{
+                handleNoAcces(socket);
+            }
+        });
         socket.on("GetMessagesByGroupId", groupID => {
             if (socket.acces) {
                 // check member of room
