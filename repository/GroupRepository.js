@@ -8,10 +8,7 @@ module.exports = class GroupRepository {
         // todo sort on last message first or date created when no messages are present
         return new Promise((resolve, reject) => {
             GroupModel.aggregate([
-                {
-                    $match: {'users._id': userID},
-
-                },
+                { $match: { 'users': {'_id': userID, 'accepted': true}} },
                 { $sort: { createdOn: -1 } },
                 {
                     $lookup: {
@@ -33,7 +30,7 @@ module.exports = class GroupRepository {
     getInvites(userID){
         return new Promise((resolve,reject) => {
             GroupModel.aggregate([
-                {$match: {'users._id': userID,'users.accepted': 'false'}},
+                { $match: { 'users': {'_id': userID, 'accepted': false}} },
                 { $sort: { createdOn: -1 } },
             ]).exec((error, results) => {
                 if (error) {
@@ -41,6 +38,48 @@ module.exports = class GroupRepository {
                 }
                 resolve(results);
             });
+        });
+    }
+
+    acceptInvite(groupID,userID){
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.update(
+                    {_id: mongoose.Types.ObjectId(groupID), "users._id": mongoose.Types.ObjectId(userID)},
+                    {
+                        $set: {
+                            "users.accepted": true
+                        }
+                    },
+                    function (err, raw) {
+                        if (err) {
+                            reject(err);
+                        }
+                        resolve(raw);
+                    }
+                )
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    declineInvite(groupID,userID){
+        return new Promise((resolve, reject) => {
+            try {
+                GroupModel.update(
+                    {_id: groupID, "users._id": userID, "users.accepted": false},
+                    {$pull: {"users": {"_id": userID}}},
+                    function (err, raw) {
+                        if (err) {
+                            reject(err);
+                        }
+                        resolve(raw);
+                    }
+                )
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 

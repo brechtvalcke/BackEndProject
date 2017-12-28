@@ -23,6 +23,21 @@ module.exports = class GroupService {
         });
     }
 
+    acceptInvite(groupID,userID){
+        return new Promise((resolve,reject) => {
+           this.groupRepository.acceptInvite(groupID, userID)
+               .then(res => { resolve(res); })
+               .catch(err => { reject(err); })
+        });
+    }
+    declineInvite(groupID,userID){
+        return new Promise((resolve,reject) => {
+            this.groupRepository.declineInvite(groupID, userID)
+                .then(res => { resolve(res); })
+                .catch(err => { reject(err); })
+        });
+    }
+
     getGroup(groupID){
         return new Promise((resolve, reject) => {
             this.groupRepository.getGroup(groupID)
@@ -86,7 +101,7 @@ module.exports = class GroupService {
         return new Promise((resolve, reject) => {
             const activity = {
                 name: body.name,
-                users: [{userID:userID}]
+                users: [{userID:userID,accepted: true}]
             };
             this.groupRepository.addActivityForGroup(activity,groupID)
             .then(result => {

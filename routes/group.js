@@ -12,6 +12,13 @@ module.exports = function(app, passport) {
     app.route(groupRoute + "invites")
         .get(passport.authenticate('facebook-token', {session:false}),groupController.getInvites);
 
+    app.route(groupRoute + "invites/:groupId/accepted")
+        .put(passport.authenticate('facebook-token', {session:false}),groupController.acceptInvite);
+
+    app.route(groupRoute + "invites/:groupId/decline")
+        .delete(passport.authenticate('facebook-token', {session:false}),groupController.declineInvite);
+
+
     app.route(groupRoute + ":id")
     .get(passport.authenticate('facebook-token', {session:false}),groupController.getGroupById);
 

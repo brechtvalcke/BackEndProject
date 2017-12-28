@@ -18,6 +18,18 @@ module.exports = class GroupController {
             .then(result => { res.json({groupList:result}); })
             .catch(error => { res.status(400).json({error: "something went wrong"}) })
     }
+
+    acceptInvite(req,res){
+        groupService.acceptInvite(req.params.groupId,req.user.data._id)
+            .then(result => { res.json({changed:true}); })
+            .catch(error => { res.status(400).json({error: "something went wrong"}) })
+    }
+    declineInvite(req,res){
+        groupService.declineInvite(req.params.groupId,req.user.data._id)
+            .then(result => { res.json({changed:true}); })
+            .catch(error => { res.status(400).json({error: "something went wrong"}) })
+    }
+
     addGroup(req,res){
         if(req.body.name === undefined || req.body.name === null || req.body.name === ""){
             const now = new Date();
