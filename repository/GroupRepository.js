@@ -9,7 +9,10 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             GroupModel.aggregate([
                 {
-                    $match: {'users._id': userID},
+                    $match: {
+                        'users._id': userID,
+                        'users.accepted': true
+                    },
 
                 },
                 { $sort: { createdOn: -1 } },
@@ -33,7 +36,7 @@ module.exports = class GroupRepository {
     getInvites(userID){
         return new Promise((resolve,reject) => {
             GroupModel.aggregate([
-                {$match: {'users._id': userID,'users.accepted': 'false'}},
+                {$match: {'users._id': userID,'users.accepted': false}},
                 { $sort: { createdOn: -1 } },
             ]).exec((error, results) => {
                 if (error) {

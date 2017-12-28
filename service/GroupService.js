@@ -84,7 +84,7 @@ module.exports = class GroupService {
         return new Promise((resolve, reject) => {
             const activity = {
                 name: body.name,
-                users: [{userID:userID}]
+                users: [{userID:userID,accepted: true}]
             };
             this.groupRepository.addActivityForGroup(activity,groupID)
             .then(result => {
