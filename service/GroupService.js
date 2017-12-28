@@ -1,9 +1,11 @@
 let GroupRepository = require('../repository/GroupRepository');
 let GroupModel = require("../model/GroupModel");
+let UserService = require("../service/UserService");
 
 module.exports = class GroupService {
     constructor(){
         this.groupRepository = new GroupRepository();
+        this.userService = new UserService();
     }
 
     getGroups(userID){
@@ -227,6 +229,28 @@ module.exports = class GroupService {
             .catch(err => {
                 reject(err);
             })
+        });
+    }
+    getUserObjectsByGroupId(groupID){
+        return new Promise((resolve,reject) => {
+            
+            this.groupRepository.getUsersInGroup(groupID)
+            .then(usersInGroup=>{
+                let Promises = [];
+                usersInGroup.forEach(userData => {
+                    Promises.push(this.userService.getUserById(userData._id));
+                    
+                });
+                Promise.all(Promises).then(res => {
+                    let Users = [];
+                    res.forEach(user => {
+                        Users.push(user);
+                    });
+                    resolve(Users);
+                })
+                .catch(error => {});
+            })
+            .catch(error => reject(error));
         });
     }
 };

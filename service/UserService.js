@@ -91,7 +91,13 @@ module.exports = class GroupService {
                 .catch(error => reject(error));
         });
     }
-
+    getUserById(userID) {
+        return new Promise((resolve, reject) => {
+            this.userRepository.getUserById(userID)
+                .then(result => resolve(result))
+                .catch(error => reject(error));
+        });
+    }
     getNearbyFriends(userID){
         return new Promise((resolve, reject) => {
             this.userRepository.getNearbyFriends(userID)
