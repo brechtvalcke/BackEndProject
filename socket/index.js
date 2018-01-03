@@ -25,6 +25,7 @@ const joinMyGroupRooms = (socket,io) => {
 
 module.exports = function (app, io) {
     io.on('connection', function (socket) {
+
         socket.emit("connected");
         socket.on("auth",authData => {
             if(typeof(authData) !== "object"){
@@ -70,6 +71,8 @@ module.exports = function (app, io) {
                     groupService.sendMessage(groupID,message).then(result => {
 
                         io.sockets.to(groupID).emit("message", message,groupID);
+                        console.log("test");
+                        io.sockets.to(groupID).emit("messageNotification", message,groupID,senderId,groupID);
                     })
                     .catch(error => {
                         socket.emit("messageFailed",message);
