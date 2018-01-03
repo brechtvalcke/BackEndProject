@@ -73,6 +73,7 @@ module.exports = function (app, io) {
                         io.sockets.to(groupID).emit("message", message,groupID);
                         console.log("test");
                         io.sockets.to(groupID).emit("messageNotification", message,groupID,senderId,groupID);
+                        io.sockets.to(groupID).emit("authFailed");
                     })
                     .catch(error => {
                         socket.emit("messageFailed",message);
