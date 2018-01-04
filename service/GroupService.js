@@ -77,8 +77,9 @@ module.exports = class GroupService {
     sendInviteToFacebookFriends(userID,friendsArray) {
         return new Promise((resolve, reject) => {
             friendsArray.forEach(friend => {
-                // TODO: send userName instead of userID
-                this.io.sockets.to(friend._id).emit("inviteNotification",userID);
+                this.userService.getUserById(userID)
+                    .then(user => this.io.sockets.to(friend._id).emit("inviteNotification",user.name))
+                    .catch(error => reject(error));
             });
             //this.io.emit("inviteNotification",userID);
             resolve(true);
@@ -256,6 +257,7 @@ module.exports = class GroupService {
             })
         });
     }
+
     getUserObjectsByGroupId(groupID){
         return new Promise((resolve,reject) => {
             
