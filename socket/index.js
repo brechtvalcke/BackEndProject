@@ -77,10 +77,7 @@ module.exports = function (app, io) {
 
                         Promise.all(promises)
                             .then(result => {
-                                console.log(result);
-                                console.log(result[0].name);
-                                console.log(result[1].name);
-                                io.sockets.to(groupID).emit("messageNotification",message, result[0].name,result[1].name,groupID);
+                                io.sockets.to(groupID).emit("messageNotification",message, result[0][0].name,result[1].name,groupID);
                             })
                             .catch(error => socket.emit("messageFailed",message));
                     })
