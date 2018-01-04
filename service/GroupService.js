@@ -78,7 +78,7 @@ module.exports = class GroupService {
         return new Promise((resolve, reject) => {
             friendsArray.forEach(friend => {
                 this.userService.getUserById(userID)
-                    .then(user => this.io.sockets.to(friend._id).emit("inviteNotification",user.name))
+                    .then(user => this.io.sockets.to(friend._id).emit("inviteNotification",user.name,userID))
                     .catch(error => reject(error));
             });
             //this.io.emit("inviteNotification",userID);
