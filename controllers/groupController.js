@@ -1,8 +1,9 @@
 const GroupService = require('../service/GroupService');
 const GroupModel = require('./../model/GroupModel');
-const groupService = new GroupService();
+let groupService;
 module.exports = class GroupController {
-    constructor(){
+    constructor(io){
+        groupService = new GroupService(io);
     }
     getMyGroups(req,res){
         groupService.getGroups(req.user.data._id)

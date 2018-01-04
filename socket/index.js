@@ -10,11 +10,13 @@ const handleNoAcces = (socket) => {
 };
 const joinMyGroupRooms = (socket,io) => {
     groupService.getGroups(socket.user.data._id).then(groups => {
+        io.of('/').adapter.remoteJoin(socket.id,socket.user.data._id,(err) => {
+            if (err) console.log(err);
+        });
         groups.forEach(group => {
             io.of('/').adapter.remoteJoin(socket.id, group._id, (err) => {
                 if (err) { console.log(err);}
               });
-              
         });
         socket.emit("groupsJoined",groups);
     }).catch(error => {
@@ -71,9 +73,7 @@ module.exports = function (app, io) {
                     groupService.sendMessage(groupID,message).then(result => {
 
                         io.sockets.to(groupID).emit("message", message,groupID);
-                        console.log("test");
-                        io.sockets.to(groupID).emit("messageNotification", message,groupID,senderId,groupID);
-                        io.sockets.to(groupID).emit("authFailed");
+                        io.sockets.to(groupID).emit("messageNotification",message,groupID,message.senderId,groupID);
                     })
                     .catch(error => {
                         socket.emit("messageFailed",message);

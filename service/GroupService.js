@@ -3,7 +3,8 @@ let GroupModel = require("../model/GroupModel");
 let UserService = require("../service/UserService");
 
 module.exports = class GroupService {
-    constructor(){
+    constructor(io){
+        this.io = io;
         this.groupRepository = new GroupRepository();
         this.userService = new UserService();
     }
@@ -49,7 +50,10 @@ module.exports = class GroupService {
 
     createGroup(groupToCreate){
         return new Promise((resolve, reject) => {
-            let promises = [this.groupRepository.createGroup(groupToCreate)];
+            let promises = [
+                this.groupRepository.createGroup(groupToCreate),
+                this.sendInviteToFacebookFriends(groupToCreate.createBy,groupToCreate.users)
+            ];
 
             // TODO call facebook API to send invite
             try {
@@ -57,7 +61,7 @@ module.exports = class GroupService {
                     .then(result => {
                         let addedGroup = new GroupModel();
                         addedGroup._id = result[0];
-                        resolve(addedGroup)
+                        resolve(addedGroup);
                     })
                     .catch(error => {
                         console.log(error);
@@ -70,8 +74,14 @@ module.exports = class GroupService {
         });
     }
 
-    sendInviteToFacebookFriends(userID,...friendsID) {
+    sendInviteToFacebookFriends(userID,friendsArray) {
         return new Promise((resolve, reject) => {
+            friendsArray.forEach(friend => {
+                console.log(friend._id);
+                this.io.sockets.to(friend._id).emit("inviteNotification",userID);
+            });
+            //this.io.emit("inviteNotification",userID);
+            resolve(true);
         });
     }
     updateGroupName(newName,groupID) {

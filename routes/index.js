@@ -1,10 +1,10 @@
 let glob = require("glob");
 
-module.exports = function (app, passport) {
+module.exports = function (app, passport,io) {
 
     glob.sync('routes/!(index).js').forEach((route) => {
 
-        require("../"+route)(app, passport);
+        require("../"+route)(app, passport,io);
     });
 
     function apiNotFoundRes (req,res){

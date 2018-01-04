@@ -17,5 +17,10 @@ module.exports = {
         getConnectionString: function(){
            return "mongodb://"+this.username+":"+ this.password +"@meetme-shard-00-00-u195e.mongodb.net:27017,meetme-shard-00-01-u195e.mongodb.net:27017,meetme-shard-00-02-u195e.mongodb.net:27017/"+this.dbName+"?ssl=true&replicaSet=MeetMe-shard-0&authSource=admin"
         } 
+    },
+    redis: {
+        port:13185,
+        host:"redis-13185.c6.eu-west-1-1.ec2.cloud.redislabs.com",
+        password:"Win$4ever"
     }
 };

@@ -1,6 +1,6 @@
 const ActivityController = require('../controllers/activityController');
 const activityController = new ActivityController();
-module.exports = function(app, passport) {
+module.exports = function(app, passport,io) {
     const groupRoute = "/api/activity";
 
     app.route(groupRoute)

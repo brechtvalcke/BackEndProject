@@ -1,8 +1,9 @@
 const GroupController = require("./../controllers/groupController");
-const groupController = new GroupController();
+let groupController;
 const isMemberOfGroupMiddelware = require("../middelware/isMemberOfGroupMiddelware");
 const isCreatorOfGroupMiddelware = require("../middelware/IsCreatorOfGroupMiddelware");
-module.exports = function(app, passport) {
+module.exports = function(app, passport,io) {
+    groupController = new GroupController(io);
     const groupRoute = "/api/group/";
     // global group routes
     app.route(groupRoute)
