@@ -73,11 +73,12 @@ module.exports = function (app, io) {
                     groupService.sendMessage(groupID,message).then(result => {
 
                         io.sockets.to(groupID).emit("message", message,groupID);
+                        // TODO: message (messageObject,Groupname,sendername,groupID) groupname en sender name ipv id's meegeven
                         io.sockets.to(groupID).emit("messageNotification",message,groupID,message.senderId,groupID);
                     })
                     .catch(error => {
                         socket.emit("messageFailed",message);
-                    })
+                    });
                 }
 
             } else {
