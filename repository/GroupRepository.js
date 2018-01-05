@@ -9,7 +9,7 @@ module.exports = class GroupRepository {
         return new Promise((resolve, reject) => {
             GroupModel.aggregate([
                 { $match: { 'users': {'_id': userID, 'accepted': true}} },
-                { $sort: { createdOn: -1 } },
+                { $sort: {'messages.dateSent': -1,createdOn: -1}},
                 {
                     $lookup: {
                         from: "users",
