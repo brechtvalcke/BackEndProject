@@ -25,7 +25,7 @@ module.exports = function(app, passport,io) {
 
 
     app.route(groupRoute + "changeName/:groupId")
-    .put(passport.authenticate('facebook-token', {session:false}),isCreatorOfGroupMiddelware,groupController.updateGroupName);
+    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.updateGroupName);
     // Activity Routes
     app.route(groupRoute + "activity/:groupId")
     .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllActivitiesForGroup) // DONE
