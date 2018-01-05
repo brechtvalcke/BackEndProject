@@ -7,6 +7,9 @@ module.exports = class UserController {
     constructor() {
         
     };
+    getMyAccountInfo(req,res){
+        res.status(200).json(req.user.data)
+    }
     getMyFriends(req,res) {
         userService.getFriends(req.user.data._id)
         .then(friends => {
