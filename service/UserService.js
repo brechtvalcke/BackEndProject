@@ -98,20 +98,5 @@ module.exports = class GroupService {
                 .catch(error => reject(error));
         });
     }
-    getNearbyFriends(userID){
-        return new Promise((resolve, reject) => {
-            this.userRepository.getNearbyFriends(userID)
-                .then(result => resolve(result))
-                .catch(error => reject(error));
-        });
-    }
 
-    updateLocation(userID,body){
-        return new Promise((resolve, reject) => {
-            this.userRepository.updateLocation(userID,body)
-                .then(result => resolve(result))
-                .catch(error => reject(error));
-        });
-    }
-    
 };

@@ -95,15 +95,7 @@ module.exports = class GroupController {
             res.status(400).json({error:"something went wrong"});
         })
     }
-    updateActivityInGroup(req,res){
 
-    }
-    updateActivityNameInGroup(req,res){
-
-    }
-    deleteActivityInGroup(req,res){
-
-    }
     getAllTimeslotsForGroup(req,res){
         groupService.getAllTimeslotsForGroup(req.params.groupId)
         .then(result => {
@@ -122,34 +114,18 @@ module.exports = class GroupController {
                 res.status(400).json({error:"something went wrong"});
             })
     }
-    updateTimeslotInGroup(req,res){
 
-    }
-    deleteTimeslotInGroup(req,res){
-
-    }
-    getMessages(req,res){
-
-    }
 
     voteForActivityInGroup(req,res){
         groupService.voteForActivityInGroup(req.params.groupId,req.params.activityID,req.user.data._id)
             .then(result => {
+                
                 res.json({data:result});
             })
             .catch(error => {
                 res.status(400).json({error:"something went wrong"});
-            })
+            });
     }
-    removeVoteForActivityInGroup(req,res){
-        groupService.removeVoteForActivityInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id).then(result => {
-            res.json({data:result});
-        })
-        .catch(error => {
-            res.status(400).json({error:"something went wrong"});
-        })
-    }
-    updateTimeslotNameInGroup(req,res){}
     voteForTimeslotInGroup(req,res){
         groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id)
             .then(result => {
@@ -157,15 +133,7 @@ module.exports = class GroupController {
             })
             .catch(error =>{
                 res.status(400).json({error:"something went wrong"});
-            })
-    }
-    removeVoteForTimeslotInGroup(req,res){
-        groupService.removeVoteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id).then(result => {
-            res.json({data:result});
-        })
-        .catch(error =>{
-            res.status(400).json({error:"something went wrong"});
-        })
+            });
     }
 
 }

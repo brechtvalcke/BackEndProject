@@ -214,7 +214,6 @@ module.exports = class GroupService {
                     resolve(result[0].timeSlot[result[0].timeSlot.length - 1]);
                 })
                 .catch(error => {
-                    console.log(error);
                     reject(error);
                 })
         });
@@ -224,48 +223,26 @@ module.exports = class GroupService {
         return new Promise((resolve, reject) => {
             this.groupRepository.voteForTimeSlotInGroup(groupID, timeSlotID, userID)
                 .then(result => {
+                    this.io.sockets.to(groupID).emit("timeslotVoted",groupID, timeSlotID, userID);
                     resolve(result);
                 })
                 .catch(error => {
                     reject(error);
                 })
         });
-    }
-
-    removeVoteForTimeSlotInGroup(groupID, timeSlotID, userID) {
-        return new Promise((resolve, reject) => {
-            this.groupRepository.removeVoteForTimeSlotInGroup(groupID, timeSlotID, userID)
-                .then(result => {
-                    resolve(result);
-                })
-                .catch(error => {
-                    reject(error);
-                })
-        })
     }
 
     voteForActivityInGroup(groupID, activityID, userID) {
         return new Promise((resolve, reject) => {
             this.groupRepository.voteForActivityInGroup(groupID, activityID, userID)
                 .then(result => {
+                    this.io.sockets.to(groupID).emit("activityVoted",groupID, activityID, userID);
                     resolve(result);
                 })
                 .catch(error => {
                     reject(error);
                 })
         });
-    }
-
-    removeVoteForActivityInGroup(groupID, activityID, userID) {
-        return new Promise((resolve, reject) => {
-            this.groupRepository.removeVoteForActivityInGroup(groupID, timeSlotID, userID)
-                .then(result => {
-                    resolve(result);
-                })
-                .catch(error => {
-                    reject(error);
-                })
-        })
     }
 
     sendMessage(groupID, message) {
