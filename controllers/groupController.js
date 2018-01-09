@@ -97,6 +97,10 @@ module.exports = class GroupController {
             res.status(400).json({error:"something went wrong"});
         })
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> bbe05ad3b561a0a828dc553a79522da0ec76c84c
     getAllTimeslotsForGroup(req,res){
         groupService.getAllTimeslotsForGroup(req.params.groupId)
         .then(result => {
@@ -115,23 +119,20 @@ module.exports = class GroupController {
                 res.status(400).json({error:"something went wrong"});
             })
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> bbe05ad3b561a0a828dc553a79522da0ec76c84c
 
     voteForActivityInGroup(req,res){
         groupService.voteForActivityInGroup(req.params.groupId,req.params.activityID,req.user.data._id)
             .then(result => {
+                
                 res.json({data:result});
             })
             .catch(error => {
                 res.status(400).json({error:"something went wrong"});
-            })
-    }
-    removeVoteForActivityInGroup(req,res){
-        groupService.removeVoteForActivityInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id).then(result => {
-            res.json({data:result});
-        })
-        .catch(error => {
-            res.status(400).json({error:"something went wrong"});
-        })
+            });
     }
     voteForTimeslotInGroup(req,res){
         groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id)
@@ -140,15 +141,7 @@ module.exports = class GroupController {
             })
             .catch(error =>{
                 res.status(400).json({error:"something went wrong"});
-            })
-    }
-    removeVoteForTimeslotInGroup(req,res){
-        groupService.removeVoteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id).then(result => {
-            res.json({data:result});
-        })
-        .catch(error =>{
-            res.status(400).json({error:"something went wrong"});
-        })
+            });
     }
 
 }

@@ -249,15 +249,15 @@ module.exports = class GroupRepository {
                             reject(err);
                         }
                         if (affected.nModified === 0){
-                            return new Promise((resolve, reject) => {
-                                new GroupRepository().removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
-                                    .then(result => {
-                                        resolve(result);
-                                    })
-                                    .catch(error => {
-                                        reject(error);
-                                    })
-                            });
+                            //TODO: move this logic to service
+
+                            new GroupRepository().removeVoteForTimeSlotInGroup(groupID,timeSlotID,userID)
+                                .then(result => {
+                                    resolve(result);
+                                })
+                                .catch(error => {
+                                    reject(error);
+                                })
                         }
 
                         resolve(affected);
@@ -265,37 +265,6 @@ module.exports = class GroupRepository {
             }catch (error){
                 reject(error);
             }
-/*
-            try {
-                GroupModel.findOne({'_id':groupID})
-                .exec((err,res) => {
-                    if(err) {
-                        reject(err);
-                    }
-                    for (let i = 0;i<= res.timeSlot.length-1;i++) {
-                        if (res.timeSlot[i]._id.toString() === timeSlotID) {
-                            let userAlreadyVoted = false;
-                            res.timeSlot[i].votes.forEach(vote => {
-                                if (vote === userID) {
-                                    userAlreadyVoted = true;
-                                }
-                            });
-                            if(!userAlreadyVoted){
-                                res.timeSlot[i].votes.push(userID);
-                            }
-                        }
-                    }
-                    res.save(err => {
-                        if(err){
-                            reject(err);
-                        }
-                        resolve(res);
-                    });
-
-                });
-            } catch (error) {
-                reject(error);
-            }*/
         });
     }
     removeVoteForTimeSlotInGroup(groupID, timeSlotID, userID) {
@@ -310,29 +279,7 @@ module.exports = class GroupRepository {
                         }
                         resolve(affected);
                     });
-                /*
-                GroupModel.findOne({'_id':groupID})
-                .exec((err,res) => {
-                    if(err) {
-                        reject(err);
-                    }
-                    for (let i = 0;i<= res.timeSlot.length-1;i++) {
-                        if (res.timeSlot[i]._id.toString() === timeSlotID) {
-    
-                            res.timeSlot[i].votes = res.timeSlot[i].votes.filter(function(a) {
-                                return a != userID
-                            });
-                        }
-                    }
-                    console.log(res);
-                    res.save(err => {
-                        if(err){
-                            reject(err);
-                        }
-                        resolve(res);
-                    });
 
-                });*/
             } catch (error) {
                 reject(error);
             }
@@ -346,11 +293,11 @@ module.exports = class GroupRepository {
                     {'_id': groupID, 'activity._id': activityID},
                     {$addToSet: {"activity.$.votes": userID}},
                     function(err,affected){
-                        console.log(affected);
                         if (err){
                             reject(err);
                         }
                         if (affected.nModified === 0){
+                            //TODO: move this logic to service
                             new GroupRepository().removeVoteForActivityInGroup(groupID,activityID,userID)
                                 .then(result => {
                                     resolve(result);
@@ -362,36 +309,7 @@ module.exports = class GroupRepository {
 
                         resolve(affected);
                     });
-                /*
-                GroupModel.findOne({'_id':groupID})
-                .exec((err,res) => {
-                    if(err) {
-                        reject(err);
-                    }
-                    
-                    for (let i = 0;i<= res.activity.length-1;i++) {
-                        if (res.activity[i]._id.toString() === activityID) {
-                            let userAlreadyVoted = false;
-                            res.activity[i].votes.forEach(vote => {
-                                if (vote === userID) {
-                                    userAlreadyVoted = true;
-                                }
-                            });
-                            if(!userAlreadyVoted){
-                                res.activity[i].votes.push(userID);
-                            }
 
-                        }
-                    }
-                    res.save(err => {
-                        if(err){
-                            reject(err);
-                        }
-                        resolve(res);
-                    });
-
-                });
-                */
           
             } catch (error) {
                 reject(error);
@@ -411,31 +329,7 @@ module.exports = class GroupRepository {
                         }
                         resolve(affected);
                     });
-                /*
-                GroupModel.findOne({'_id':groupID})
-                .exec((err,res) => {
-                    if(err) {
-                        reject(err);
-                    }
-                    
-                    for (let i = 0;i<= res.activity.length-1;i++) {
-                        if (res.activity[i]._id.toString() === activityID) {
-
-                            res.activity[i].votes = res.activity[i].votes.filter(function(a) {
-                                return a != userID
-                            });
-
-                        }
-                    }
-                    res.save(err => {
-                        if(err){
-                            reject(err);
-                        }
-                        resolve(res);
-                    });
-
-                });
-                */
+               
             } catch (error) {
                 reject(error);
             }

@@ -12,10 +12,10 @@ const settings = require('./settings');
 const FacebookTokenStrategy = require('passport-facebook-token');
 const mongoose = require('mongoose');
 
+// connecting to mongoose and setting es6 promise as promise library
 mongoose.Promise = global.Promise;
 mongoose.connect(settings.mongoDb.getConnectionString(),{useMongoClient:true});
-
-
+// setting socket io adapter for supporting multitenancy
 const redis = require('redis').createClient;
 const adapter = require('socket.io-redis');
 const pub = redis(settings.redis.port, settings.redis.host, { auth_pass: settings.redis.password });
