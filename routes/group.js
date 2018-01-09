@@ -28,9 +28,8 @@ module.exports = function(app, passport,io) {
     .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.updateGroupName); //DONE
     // Activity Routes
     app.route(groupRoute + "activity/:groupId")
-    .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllActivitiesForGroup) // DONE
-<<<<<<< HEAD
-    //.post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addActivityForGroup) //DONE
+    .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllActivitiesForGroup)// DONE
+    .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addActivityForGroup); //DONE
 
     app.route(groupRoute + "activity/vote/:groupId/:activityID")
     .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForActivityInGroup);//DONE
@@ -40,22 +39,6 @@ module.exports = function(app, passport,io) {
     .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addTimeslotForGroup); //DONE
 
     app.route(groupRoute + "timeslot/vote/:groupId/:timeslotID")
-    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForTimeslotInGroup) //DONE
-    .delete(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.removeVoteForTimeslotInGroup); //DONE
-=======
-    .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addActivityForGroup) //DONE
-
-
-    app.route(groupRoute + "activity/vote/:groupId/:activityID")
-    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForActivityInGroup) //TODO
-    // Timeslot Routes
-    app.route(groupRoute + "timeslot/:groupId")
-    .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllTimeslotsForGroup) //DONE
-    .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addTimeslotForGroup) //TODO
-
-    app.route(groupRoute + "timeslot/vote/:groupId/:timeslotID")
-    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForTimeslotInGroup) //TODO
-
-
->>>>>>> bbe05ad3b561a0a828dc553a79522da0ec76c84c
+    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForTimeslotInGroup);//DONE
+    
 };

@@ -15,24 +15,6 @@ module.exports = class GroupController {
             res.status(400).json({error: "something went wrong"});
         })
     }
-
-    getInvites(req,res){
-        groupService.getInvites(req.user.data._id)
-            .then(result => { res.json({groupList:result}); })
-            .catch(error => { res.status(400).json({error: "something went wrong"}) })
-    }
-
-    acceptInvite(req,res){
-        groupService.acceptInvite(req.params.groupId,req.user.data._id)
-            .then(result => { res.json({changed:true}); })
-            .catch(error => { res.status(400).json({error: "something went wrong"}) })
-    }
-    declineInvite(req,res){
-        groupService.declineInvite(req.params.groupId,req.user.data._id)
-            .then(result => { res.json({changed:true}); })
-            .catch(error => { res.status(400).json({error: "something went wrong"}) })
-    }
-
     addGroup(req,res){
         if(req.body.name === undefined || req.body.name === null || req.body.name === ""){
             const now = new Date();
@@ -45,7 +27,7 @@ module.exports = class GroupController {
                 users.push({_id:user._id, accepted:false});
             }
         });
-        
+
 
         let groupToCreate = new GroupModel({
             name: req.body.name,
@@ -54,14 +36,33 @@ module.exports = class GroupController {
             createdOn: new Date()
         });
         groupService.createGroup(groupToCreate)
-        .then(group => {
-            res.json(group);
-        })
-        .catch(error => {
-            res.status(400);
-            res.json({error: "something went wrong"})
-        });
+            .then(group => {
+                res.json(group);
+            })
+            .catch(error => {
+                res.status(400);
+                res.json({error: "something went wrong"})
+            });
     }
+
+    getInvites(req,res){
+        groupService.getInvites(req.user.data._id)
+            .then(result => { res.json({groupList:result}); })
+            .catch(error => { res.status(400).json({error: "something went wrong"}) })
+    }
+
+    acceptInvite(req,res){
+        groupService.acceptInvite(req.params.groupId,req.user.data._id)
+            .then(result => { res.json({changed:true}); })
+            .catch(error => { res.status(400).json({error: "something went wrong"}) })
+    }
+
+    declineInvite(req,res){
+        groupService.declineInvite(req.params.groupId,req.user.data._id)
+            .then(result => { res.json({changed:true}); })
+            .catch(error => { res.status(400).json({error: "something went wrong"}) })
+    }
+
     getGroupById(req,res){
         groupService.getGroup(req.params.id).then(result => {
             res.json({groupList:result});
@@ -79,6 +80,7 @@ module.exports = class GroupController {
             res.status(400).json({error:"something went wrong"});
         })
     }
+
     getAllActivitiesForGroup(req,res){
         groupService.getAllActivitiesForGroup(req.params.groupId)
         .then(result => {
@@ -88,6 +90,7 @@ module.exports = class GroupController {
             res.status(400).json({error:"something went wrong"});
         })
     }
+
     addActivityForGroup(req,res){
         groupService.addActivityForGroup(req.body,req.params.groupId,req.user.data._id)
         .then(result => {
@@ -97,10 +100,18 @@ module.exports = class GroupController {
             res.status(400).json({error:"something went wrong"});
         })
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> bbe05ad3b561a0a828dc553a79522da0ec76c84c
+    voteForActivityInGroup(req,res){
+        groupService.voteForActivityInGroup(req.params.groupId,req.params.activityID,req.user.data._id)
+            .then(result => {
+
+                res.json({data:result});
+            })
+            .catch(error => {
+                res.status(400).json({error:"something went wrong"});
+            });
+    }
+
     getAllTimeslotsForGroup(req,res){
         groupService.getAllTimeslotsForGroup(req.params.groupId)
         .then(result => {
@@ -119,21 +130,7 @@ module.exports = class GroupController {
                 res.status(400).json({error:"something went wrong"});
             })
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> bbe05ad3b561a0a828dc553a79522da0ec76c84c
-
-    voteForActivityInGroup(req,res){
-        groupService.voteForActivityInGroup(req.params.groupId,req.params.activityID,req.user.data._id)
-            .then(result => {
-                
-                res.json({data:result});
-            })
-            .catch(error => {
-                res.status(400).json({error:"something went wrong"});
-            });
-    }
     voteForTimeslotInGroup(req,res){
         groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id)
             .then(result => {
