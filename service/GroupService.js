@@ -136,6 +136,7 @@ module.exports = class GroupService {
                 .then(result => {
                     this.getLastAddedActivity(groupID, activity.name)
                         .then(result => {
+                            this.io.sockets.to(groupID).emit("activityAdded",groupID, result);
                             resolve(result)
                         })
                         .catch(error => {
@@ -170,6 +171,7 @@ module.exports = class GroupService {
             };
             this.groupRepository.updateActivityInGroup(activity, groupID)
                 .then(result => {
+                    
                     resolve(result);
                 })
                 .catch(error => {
@@ -196,6 +198,7 @@ module.exports = class GroupService {
                 .then(result => {
                     this.getLastAddedTimeslot(groupID, body)
                         .then(result => {
+                            this.io.sockets.to(groupID).emit("timeslotAdded",groupID, result);
                             resolve(result)
                         })
                         .catch(error => {
