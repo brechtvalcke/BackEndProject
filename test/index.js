@@ -1,8 +1,17 @@
-const assert = require('chai').assert;
-const app = require('../app');
+const expect = require('chai').expect;
+const Group = require('../controllers/groupController');
+const Repo = require('../repository/GroupRepository');
 
-describe('App',function () {
-    it('app should return hello', function () {
-        assert.equal(app(),'hello');
-    })
-})
+describe('request groups from users', function () {
+    it('Create request to get all user groups', function (done) {
+        let userId = { user: { data: {
+            _id: '1499811716733810'
+        }}};
+        let group = new Repo();
+
+        group.getInvites('1499811716733810', result =>
+            {
+                done();
+            });
+    });
+});

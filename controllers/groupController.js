@@ -1,6 +1,7 @@
 const GroupService = require('../service/GroupService');
 const GroupModel = require('./../model/GroupModel');
 let groupService;
+
 module.exports = class GroupController {
     constructor(io){
         groupService = new GroupService(io);
@@ -14,6 +15,7 @@ module.exports = class GroupController {
             res.status(400).json({error: "something went wrong"});
         })
     }
+
     getInvites(req,res){
         groupService.getInvites(req.user.data._id)
             .then(result => { res.json({groupList:result}); })
@@ -95,15 +97,6 @@ module.exports = class GroupController {
             res.status(400).json({error:"something went wrong"});
         })
     }
-    updateActivityInGroup(req,res){
-
-    }
-    updateActivityNameInGroup(req,res){
-
-    }
-    deleteActivityInGroup(req,res){
-
-    }
     getAllTimeslotsForGroup(req,res){
         groupService.getAllTimeslotsForGroup(req.params.groupId)
         .then(result => {
@@ -121,15 +114,6 @@ module.exports = class GroupController {
             .catch(error =>{
                 res.status(400).json({error:"something went wrong"});
             })
-    }
-    updateTimeslotInGroup(req,res){
-
-    }
-    deleteTimeslotInGroup(req,res){
-
-    }
-    getMessages(req,res){
-
     }
 
     voteForActivityInGroup(req,res){
@@ -149,7 +133,6 @@ module.exports = class GroupController {
             res.status(400).json({error:"something went wrong"});
         })
     }
-    updateTimeslotNameInGroup(req,res){}
     voteForTimeslotInGroup(req,res){
         groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id)
             .then(result => {
