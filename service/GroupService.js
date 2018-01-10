@@ -11,7 +11,6 @@ module.exports = class GroupService {
 
     getGroups(userID) {
         return new Promise((resolve, reject) => {
-            resolve("tes");
             this.groupRepository.getGroups(userID)
                 .then(result => resolve(result))
                 .catch(error => reject(error));
