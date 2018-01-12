@@ -9,9 +9,11 @@ describe('request groups from users', function () {
         }}};
         let group = new Repo();
 
+
+/*
         group.getInvites('1499811716733810', result =>
             {
                 done();
-            });
+            });*/
     });
 });

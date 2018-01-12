@@ -64,8 +64,6 @@ module.exports = class GroupService {
                 this.groupRepository.createGroup(groupToCreate),
                 this.sendInviteToFacebookFriends(groupToCreate.createBy, groupToCreate.users)
             ];
-
-            // TODO call facebook API to send invite
             try {
                 Promise.all(promises)
                     .then(result => {
