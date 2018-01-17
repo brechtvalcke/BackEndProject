@@ -33,7 +33,7 @@ module.exports = class GroupService {
                 })
                 .catch(err => {
                     reject(err);
-                })
+                });
         });
     }
 
@@ -105,6 +105,8 @@ module.exports = class GroupService {
             let nameUpdateJson = {name: newName};
             this.groupRepository.updateGroupName(nameUpdateJson, groupID)
                 .then(result => {
+                    result.name=newName;
+                    this.io.sockets.to(result._id).emit("groupNameChanged",result);
                     resolve(result);
                 })
                 .catch(error => {
@@ -136,7 +138,7 @@ module.exports = class GroupService {
                     this.getLastAddedActivity(groupID, activity.name)
                         .then(result => {
                             this.io.sockets.to(groupID).emit("activityAdded",groupID, result);
-                            resolve(result)
+                            resolve(result);
                         })
                         .catch(error => {
                             reject(error);

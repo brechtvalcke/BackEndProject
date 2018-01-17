@@ -74,6 +74,7 @@ module.exports = class GroupController {
     updateGroupName(req,res){
         groupService.updateGroupName(req.body.name,req.params.groupId)
         .then(result => {
+            
             res.json({changed:true});
         })
         .catch(error => {
