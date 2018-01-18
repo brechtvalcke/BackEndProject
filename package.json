@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha || true"
   },
   "repository": {
     "type": "git",
@@ -38,8 +38,14 @@
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
     "redis": "^2.8.0",
+    "sinon": "^4.1.6",
     "socket.io": "^2.0.4",
     "socket.io-redis": "^5.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^4.1.0"
+  }
 }
