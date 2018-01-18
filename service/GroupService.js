@@ -33,7 +33,7 @@ module.exports = class GroupService {
                 })
                 .catch(err => {
                     reject(err);
-                })
+                });
         });
     }
 
@@ -64,8 +64,6 @@ module.exports = class GroupService {
                 this.groupRepository.createGroup(groupToCreate),
                 this.sendInviteToFacebookFriends(groupToCreate.createBy, groupToCreate.users)
             ];
-
-            // TODO call facebook API to send invite
             try {
                 Promise.all(promises)
                     .then(result => {
@@ -105,6 +103,8 @@ module.exports = class GroupService {
             let nameUpdateJson = {name: newName};
             this.groupRepository.updateGroupName(nameUpdateJson, groupID)
                 .then(result => {
+                    result.name=newName;
+                    this.io.sockets.to(result._id).emit("groupNameChanged",result);
                     resolve(result);
                 })
                 .catch(error => {
@@ -135,7 +135,8 @@ module.exports = class GroupService {
                 .then(result => {
                     this.getLastAddedActivity(groupID, activity.name)
                         .then(result => {
-                            resolve(result)
+                            this.io.sockets.to(groupID).emit("activityAdded",groupID, result);
+                            resolve(result);
                         })
                         .catch(error => {
                             reject(error);
@@ -169,6 +170,7 @@ module.exports = class GroupService {
             };
             this.groupRepository.updateActivityInGroup(activity, groupID)
                 .then(result => {
+                    
                     resolve(result);
                 })
                 .catch(error => {
@@ -195,6 +197,7 @@ module.exports = class GroupService {
                 .then(result => {
                     this.getLastAddedTimeslot(groupID, body)
                         .then(result => {
+                            this.io.sockets.to(groupID).emit("timeslotAdded",groupID, result);
                             resolve(result)
                         })
                         .catch(error => {

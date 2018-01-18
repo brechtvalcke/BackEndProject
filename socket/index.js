@@ -92,6 +92,7 @@ module.exports = function (app, io) {
         });
         socket.on("GetUsersInGroup", groupID => {
             if(socket.acces) {
+                // TODO check member of room
                 groupService.getUserObjectsByGroupId(groupID)
                 .then(users => {
                     data = {
@@ -106,7 +107,7 @@ module.exports = function (app, io) {
         });
         socket.on("GetMessagesByGroupId", groupID => {
             if (socket.acces) {
-                // check member of room
+                //TODO check member of room
                 memberOfGroup = false;
                 groupService.getGroups(socket.user.data._id).then(groups => {
  
@@ -132,13 +133,28 @@ module.exports = function (app, io) {
                     }
                 }).catch(error => {
                     console.log(error);
-                })
+                });
 
             } else {
                 handleNoAcces(socket);
             }
         });
-        
+        socket.on('startedTyping',(groupID) => {
+            if (socket.acces) {
+            // TODO: check member of group
+            io.sockets.to(groupID).emit("userStartedTyping",groupID,socket.user.data._id);
+            } else {
+                handleNoAcces(socket);
+            }
+        });
+        socket.on('stoppedTyping',(groupID) => {
+            if (socket.acces) {
+            // TODO: check member of group
+            io.sockets.to(groupID).emit("userStoppedTyping",groupID,socket.user.data._id);
+            } else {
+                handleNoAcces(socket);
+            }
+        });
     });
 
 };

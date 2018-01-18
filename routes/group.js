@@ -7,37 +7,36 @@ module.exports = function(app, passport,io) {
     const groupRoute = "/api/group/";
     // global group routes
     app.route(groupRoute)
-    .get(passport.authenticate('facebook-token', {session:false}),groupController.getMyGroups)
-    .post(passport.authenticate('facebook-token', {session:false}),groupController.addGroup);
+    .get(passport.authenticate('facebook-token', {session:false}),groupController.getMyGroups) //DONE
+    .post(passport.authenticate('facebook-token', {session:false}),groupController.addGroup); //DONE
 
     app.route(groupRoute + "invites")
-        .get(passport.authenticate('facebook-token', {session:false}),groupController.getInvites);
+        .get(passport.authenticate('facebook-token', {session:false}),groupController.getInvites); //DONE
 
     app.route(groupRoute + "invites/:groupId/accepted")
-        .put(passport.authenticate('facebook-token', {session:false}),groupController.acceptInvite);
+        .put(passport.authenticate('facebook-token', {session:false}),groupController.acceptInvite); //DONE
 
     app.route(groupRoute + "invites/:groupId/decline")
-        .delete(passport.authenticate('facebook-token', {session:false}),groupController.declineInvite);
+        .delete(passport.authenticate('facebook-token', {session:false}),groupController.declineInvite); //DONE
 
 
     app.route(groupRoute + ":id")
-    .get(passport.authenticate('facebook-token', {session:false}),groupController.getGroupById);
+    .get(passport.authenticate('facebook-token', {session:false}),groupController.getGroupById); //DONE
 
 
     app.route(groupRoute + "changeName/:groupId")
-    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.updateGroupName);
+    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.updateGroupName); //DONE
     // Activity Routes
     app.route(groupRoute + "activity/:groupId")
-    .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllActivitiesForGroup) // DONE
-    .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addActivityForGroup) //DONE
-
+    .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllActivitiesForGroup)
+    .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addActivityForGroup);
 
     app.route(groupRoute + "activity/vote/:groupId/:activityID")
-    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForActivityInGroup) //TODO
+    .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForActivityInGroup)
     // Timeslot Routes
     app.route(groupRoute + "timeslot/:groupId")
-    .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllTimeslotsForGroup) //DONE
-    .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addTimeslotForGroup) //TODO
+    .get(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.getAllTimeslotsForGroup)
+    .post(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.addTimeslotForGroup);
 
     app.route(groupRoute + "timeslot/vote/:groupId/:timeslotID")
     .put(passport.authenticate('facebook-token', {session:false}),isMemberOfGroupMiddelware,groupController.voteForTimeslotInGroup) //TODO

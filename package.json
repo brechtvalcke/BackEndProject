@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha || true"
+    "test": "NODE_ENV=test ./node_modules/.bin/istanbul cover --dir ./coverage ./node_modules/.bin/_mocha -- -R spec -t 15000 --recursive --slow 2"
+
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
     "base-64": "^0.1.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.1",
+    "chai": "^4.1.2",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
@@ -28,8 +30,10 @@
     "glob": "^7.1.2",
     "helmet": "^3.9.0",
     "html": "^1.0.0",
+    "istanbul": "^0.4.5",
     "md5": "^2.2.1",
     "memory-cache": "^0.2.0",
+    "mocha": "^4.1.0",
     "mongoose": "^4.13.4",
     "mysql": "^2.15.0",
     "node-geocoder": "^3.21.0",
