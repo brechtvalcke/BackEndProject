@@ -39,13 +39,5 @@ describe("request all groups", function() {
                 done();
             });
     });
-/*
-    it('return object groups', (done) => {
-        request.get({url: 'https://localhost:4200/api/group/'},(error,response,body) => {
-            console.log("show eeror");
-            console.log(error);
-            done();
-        })
-    });
-*/
+
 });
