@@ -1,43 +1,34 @@
 let expect = require("chai").expect;
 let chai = require('chai');
 let should = chai.should();
-let request = require('request');
-let util = require('util');
 const mongoose = require('mongoose');
 const settings = require('../settings');
+const GroupRepository = require('../repository/GroupRepository');
+const UserRepository = require('../repository/UserRepository');
 
-//Require the dev-dependencies
-let chaiHttp = require('chai-http');
-let server = require('../app');
-let db = require('db');
-let sinon = require('sinon');
-let groupModel = require('../model/GroupModel');
+const userId = '1499811716733810';
 
-let GroupRepository = require('../repository/GroupRepository');
-let groupRepository = new GroupRepository(db);
 
-sinon.stub(db,'find').yields(null,new groupModel());
-
-describe("request all groups", function() {
+describe("Mongoose connection", function() {
     before(function(done) {
         mongoose.connect(settings.mongoDb.getConnectionString(), function(error) {
             if (error) console.error('Error while connecting:\n%\n', error);
-
-            done(error);
+            //console.log(mongoose);
+            done();
         });
     });
 
-    it('it should GET all the books', (done) => {
-        chai.request(server)
-            .get('/api/user/')
-            .end((err, res) => {
-                console.log('error');
-                console.log(err);
-                res.should.have.status(200);
-                res.body.should.be.a('array');
-                res.body.length.should.be.eql(0);
-                done();
-            });
+    describe("test connection", () => {
+        it('should connect with mongoose', () => {
+            expect(mongoose).to.be.an('object');
+        });
+        it('mongoose should contain group object' , () => {
+            expect(mongoose.modelSchemas.Group).to.be.an("object");
+        });
+        it('mongoose should contain user object' , () => {
+            expect(mongoose.modelSchemas.User).to.be.an("object");
+        });
     });
-
 });
+
+
