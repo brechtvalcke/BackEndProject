@@ -136,7 +136,7 @@ module.exports = class GroupController {
         groupService.voteForTimeSlotInGroup(req.params.groupId,req.params.timeslotID,req.user.data._id)
             .then(result => {
                 res.json({data:result});
-            })
+c            })
             .catch(error =>{
                 res.status(400).json({error:"something went wrong"});
             });

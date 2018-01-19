@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for BackEndProject/socket/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">BackEndProject/socket/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.69% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>9/77</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">12% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>9/75</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+let settings = require('./../settings');
+const fs = require('fs');
+const UserService = require("../service/UserService");
+const userService = new UserService();
+const groupService = new (require("../service/GroupService"))();
+&nbsp;
+const handleNoAcces = (socket) =&gt; {
+<span class="cstat-no" title="statement not covered" >    console.log("user tried to do something he has no permission for");</span>
+};
+const joinMyGroupRooms = (socket,io) =&gt; {
+<span class="cstat-no" title="statement not covered" >    groupService.getGroups(socket.user.data._id).then(groups =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        io.of('/').adapter.remoteJoin(socket.id,socket.user.data._id,(err) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (err) <span class="cstat-no" title="statement not covered" >console.log(err);</span></span>
+        });
+<span class="cstat-no" title="statement not covered" >        groups.forEach(group =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            io.of('/').adapter.remoteJoin(socket.id, group._id, (err) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                if (err) { <span class="cstat-no" title="statement not covered" >console.log(err);}</span></span>
+              });
+        });
+<span class="cstat-no" title="statement not covered" >        socket.emit("groupsJoined",groups);</span>
+    }).catch(error =&gt; {
+<span class="cstat-no" title="statement not covered" >        console.log("could not fetch groups");</span>
+    })
+};
+&nbsp;
+&nbsp;
+module.exports = function (app, io) {
+    io.on('connection', <span class="fstat-no" title="function not covered" >function (socket) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        socket.emit("connected");</span>
+<span class="cstat-no" title="statement not covered" >        socket.on("auth",authData =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if(typeof(authData) !== "object"){</span>
+<span class="cstat-no" title="statement not covered" >                authData=JSON.parse(authData);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            userService.getProfileWithToken(authData.acces_token)</span>
+            .then(fbProfile =&gt; {
+<span class="cstat-no" title="statement not covered" >                userService.getOrCreateUserOnLogin(fbProfile,authData.acces_token)</span>
+                .then( user =&gt; {
+<span class="cstat-no" title="statement not covered" >                    let reqUser = {</span>
+                        data:user,
+                        accessToken:authData.acces_token,
+                        fbProfile:fbProfile,
+                    };
+<span class="cstat-no" title="statement not covered" >                    socket.user=reqUser;</span>
+<span class="cstat-no" title="statement not covered" >                    socket.acces=true;</span>
+<span class="cstat-no" title="statement not covered" >                    joinMyGroupRooms(socket,io);</span>
+<span class="cstat-no" title="statement not covered" >                    socket.emit("authSucces");</span>
+                })
+                .catch( error =&gt; {
+<span class="cstat-no" title="statement not covered" >                    console.log(error);</span>
+<span class="cstat-no" title="statement not covered" >                    socket.acces=false;</span>
+<span class="cstat-no" title="statement not covered" >                    socket.emit("authFailed");</span>
+<span class="cstat-no" title="statement not covered" >                    socket.disconnect();</span>
+                });
+                
+            })
+            .catch(error =&gt; {
+                
+            });
+        });
+<span class="cstat-no" title="statement not covered" >        socket.on("message",(groupID, messageContent) =&gt; {</span>
+            
+<span class="cstat-no" title="statement not covered" >            if (socket.acces) {</span>
+<span class="cstat-no" title="statement not covered" >                if(messageContent !== "" &amp;&amp; messageContent){</span>
+            // TODO: check if user is member of group
+<span class="cstat-no" title="statement not covered" >                    let message = {</span>
+                        senderId: socket.user.data._id,
+                        message: messageContent,
+                        usersViewed: [],
+                        dateSent : new Date(),
+                    }
+<span class="cstat-no" title="statement not covered" >                    groupService.sendMessage(groupID,message).then(result =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                        io.sockets.to(groupID).emit("message", message,groupID);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                        let promises = [groupService.getGroup(groupID),userService.getUserById(message.senderId)];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                        Promise.all(promises)</span>
+                            .then(result =&gt; {
+<span class="cstat-no" title="statement not covered" >                                io.sockets.to(groupID).emit("messageNotification",message, result[0][0].name,result[1].name,groupID);</span>
+                            })
+                            .catch(error =&gt; <span class="cstat-no" title="statement not covered" >socket.emit("messageFailed",message))</span>;
+                    })
+                    .catch(error =&gt; {
+<span class="cstat-no" title="statement not covered" >                        socket.emit("messageFailed",message);</span>
+                    });
+                }
+&nbsp;
+            } else {
+<span class="cstat-no" title="statement not covered" >                handleNoAcces(socket);</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        socket.on("GetUsersInGroup", groupID =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if(socket.acces) {</span>
+                // TODO check member of room
+<span class="cstat-no" title="statement not covered" >                groupService.getUserObjectsByGroupId(groupID)</span>
+                .then(users =&gt; {
+<span class="cstat-no" title="statement not covered" >                    data = {</span>
+                        users:users,
+                    }
+<span class="cstat-no" title="statement not covered" >                    socket.emit("usersForGroup",data);</span>
+                })
+                .catch(error =&gt; <span class="cstat-no" title="statement not covered" >console.log(error))</span>;
+            }else{
+<span class="cstat-no" title="statement not covered" >                handleNoAcces(socket);</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        socket.on("GetMessagesByGroupId", groupID =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (socket.acces) {</span>
+                //TODO check member of room
+<span class="cstat-no" title="statement not covered" >                memberOfGroup = false;</span>
+<span class="cstat-no" title="statement not covered" >                groupService.getGroups(socket.user.data._id).then(groups =&gt; {</span>
+ 
+<span class="cstat-no" title="statement not covered" >                    groups.forEach(group =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                          if(group._id + "" === groupID){</span>
+<span class="cstat-no" title="statement not covered" >                              memberOfGroup = true;</span>
+                          }
+                    });
+<span class="cstat-no" title="statement not covered" >                    if(memberOfGroup){</span>
+<span class="cstat-no" title="statement not covered" >                        groupService.getMessagesByGroupID(groupID)</span>
+                        .then(messages =&gt; {
+<span class="cstat-no" title="statement not covered" >                            data = {</span>
+                                _id:groupID,
+                                messages: messages,
+                            };
+<span class="cstat-no" title="statement not covered" >                            socket.emit("messagesOfGroupId", data);</span>
+                        })
+                        .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >                            socket.emit("GettingMessagesFailed",groupID);</span>
+                        });
+                    }else{
+<span class="cstat-no" title="statement not covered" >                        handleNoAcces(socket);</span>
+                    }
+                }).catch(error =&gt; {
+<span class="cstat-no" title="statement not covered" >                    console.log(error);</span>
+                });
+&nbsp;
+            } else {
+<span class="cstat-no" title="statement not covered" >                handleNoAcces(socket);</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        socket.on('startedTyping',(groupID) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (socket.acces) {</span>
+            // TODO: check member of group
+<span class="cstat-no" title="statement not covered" >            io.sockets.to(groupID).emit("userStartedTyping",groupID,socket.user.data._id);</span>
+            } else {
+<span class="cstat-no" title="statement not covered" >                handleNoAcces(socket);</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        socket.on('stoppedTyping',(groupID) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            if (socket.acces) {</span>
+            // TODO: check member of group
+<span class="cstat-no" title="statement not covered" >            io.sockets.to(groupID).emit("userStoppedTyping",groupID,socket.user.data._id);</span>
+            } else {
+<span class="cstat-no" title="statement not covered" >                handleNoAcces(socket);</span>
+            }
+        });
+    });
+&nbsp;
+};</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 18 2018 12:10:16 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

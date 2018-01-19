@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "NODE_ENV=test ./node_modules/.bin/istanbul cover --dir ./coverage ./node_modules/.bin/_mocha -- -R spec -t 15000 --recursive --slow 2"
+
   },
   "repository": {
     "type": "git",
@@ -41,8 +42,14 @@
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
     "redis": "^2.8.0",
+    "sinon": "^4.1.6",
     "socket.io": "^2.0.4",
     "socket.io-redis": "^5.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^4.1.0"
+  }
 }

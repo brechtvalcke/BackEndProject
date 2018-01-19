@@ -5,26 +5,26 @@ const userService = new UserService();
 module.exports = function (app,passport, cookieParser,bodyParser,helmet,compression,FacebookTokenStrategy) {
 
     passport.use(new FacebookTokenStrategy({
-        clientID: settings.facebookAuth.FACEBOOK_APP_ID,
-        clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
-      }, function(accessToken, refreshToken, profile, done) {
-          
-        userService.getOrCreateUserOnLogin(profile,accessToken)
-        .then( user => {
-            let reqUser = {
-                data:user,
-                accessToken:accessToken,
-                refreshToken:refreshToken,
-                fbProfile:profile,
-            }
-            return done(false, reqUser);
-        })
-        .catch( error => {
-            return done(error,false);
-        });
+            clientID: settings.facebookAuth.FACEBOOK_APP_ID,
+            clientSecret: settings.facebookAuth.FACEBOOK_APP_SECRET
+        }, function(accessToken, refreshToken, profile, done) {
 
-        
-      }
+            userService.getOrCreateUserOnLogin(profile,accessToken)
+                .then( user => {
+                    let reqUser = {
+                        data:user,
+                        accessToken:accessToken,
+                        refreshToken:refreshToken,
+                        fbProfile:profile,
+                    }
+                    return done(false, reqUser);
+                })
+                .catch( error => {
+                    return done(error,false);
+                });
+
+
+        }
     ));
     // uncomment block to log body before parser
     // app.use(function(req,res,next) {
