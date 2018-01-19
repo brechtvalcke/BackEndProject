@@ -27,7 +27,9 @@ const joinMyGroupRooms = (socket,io) => {
 
 module.exports = function (app, io) {
     io.on('connection', function (socket) {
-
+        socket.on('ping',() => {
+            socket.emit('pong');
+        })
         socket.emit("connected");
         socket.on("auth",authData => {
             if(typeof(authData) !== "object"){
