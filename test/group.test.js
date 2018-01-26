@@ -18,7 +18,6 @@ describe("Group", function() {
             done();
         });
     });
-
     describe("Can i fetch groups", () => {
         let groups;
         before(function (done) {
